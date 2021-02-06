@@ -1,0 +1,34 @@
+.container-list {
+  margin: 20px auto;
+  padding: 50px;
+  border-radius: 50px;
+  background: linear-gradient(145deg, #dcbdbd, #b99f9f);
+  box-shadow: 23px 23px 46px #887575, -23px -23px 46px #ffeded;
+  &:hover {
+    transform: scale(1.1);
+    border-radius: 50px;
+    background: #ceb1b1;
+    box-shadow: inset 23px 23px 46px #887575, inset -23px -23px 46px #ffeded;
+  }
+}
+.app-product-container {
+  justify-content: space-evenly;
+  display: flex;
+  &__block-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    position: absolute;
+    left: 0;
+
+    &__btns {
+      width: 200px;
+      padding: 15px 20px;
+      margin: 20px 0;
+      background: linear-gradient(145deg, #dcbdbd, #b99f9f);
+      border: none;
+      text-transform: uppercase;
+    }
+  }
+}

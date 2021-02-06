@@ -1,0 +1,14 @@
+@import "~style/root";
+
+.app-layout-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+
+  &__main {
+    flex: 1;
+    padding-top: $header-size;
+    margin: $layout-margin;
+  }
+}
