@@ -14,6 +14,10 @@
 .app-product-container {
   justify-content: space-evenly;
   display: flex;
+  &__text-request {
+    margin-top: 35vh;
+    font-size: 40px;
+  }
   &__block-btns {
     display: flex;
     flex-direction: column;
