@@ -15,20 +15,28 @@ class Service {
       }
     });
   };
-  getAllPhotos = () => {
-    return this._request("GET", "/photos");
+
+  getStartPosts = (start, limit) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        return resolve(
+          this._request("GET", `/posts?_start=${start}&_limit=${limit}`)
+        );
+      }, 1000);
+    });
   };
 
-  // ---------- CreatePost
-  // createPost = (data) => {
-  //   return this._request('POST', '/posts', data)
-  // }
+  getPosts = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        return resolve(this._request("GET", "/posts"));
+      }, 3000);
+    });
+  };
 
-  // ---------- Patch
-
-  // ubdatePost = (id,data) => {
-  //   return this._request('PATCH', `/posts ${id}`,data)
-  // }
+  deletePost = (id) => {
+    return this._request("DELETE", `/posts/${id}`);
+  };
 }
 
 const service = new Service();

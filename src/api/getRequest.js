@@ -1,4 +1,4 @@
-const requestData = (method, url, data = null) => {
+const GetData = (method, url, data = null) => {
   return fetch(url, {
     method,
     headers: data ? { "Contenet-Type": "applicatin/json" } : {},
@@ -13,15 +13,27 @@ const requestData = (method, url, data = null) => {
 };
 
 const getAllCocktails = () => {
-  return requestData(
-    "GET",
-    "https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail"
-  );
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return resolve(
+        GetData(
+          "GET",
+          "https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail"
+        )
+      );
+    }, 3000);
+  });
 };
 const getCocktails = () => {
-  return requestData(
-    "GET",
-    "https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Champagne_flute"
-  );
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return resolve(
+        GetData(
+          "GET",
+          "https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Champagne_flute"
+        )
+      );
+    }, 3000);
+  });
 };
 export { getAllCocktails, getCocktails };

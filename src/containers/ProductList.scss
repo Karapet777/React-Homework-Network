@@ -1,38 +1,30 @@
-.container-list {
-  margin: 20px auto;
-  padding: 50px;
-  border-radius: 50px;
-  background: linear-gradient(145deg, #dcbdbd, #b99f9f);
-  box-shadow: 23px 23px 46px #887575, -23px -23px 46px #ffeded;
-  &:hover {
-    transform: scale(1.1);
-    border-radius: 50px;
-    background: #ceb1b1;
-    box-shadow: inset 23px 23px 46px #887575, inset -23px -23px 46px #ffeded;
-  }
-}
 .app-product-container {
-  justify-content: space-evenly;
-  display: flex;
-  &__text-request {
-    margin-top: 35vh;
-    font-size: 40px;
+  display: grid;
+  grid-template-columns: auto;
+
+  &__block-product {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
   }
   &__block-btns {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 400px;
-    position: absolute;
-    left: 0;
+    justify-content: center;
 
     &__btns {
-      width: 200px;
-      padding: 15px 20px;
-      margin: 20px 0;
+      padding: 15px 40px;
+      margin: 5px;
       background: linear-gradient(145deg, #dcbdbd, #b99f9f);
       border: none;
       text-transform: uppercase;
+      border-radius: 5px;
+
+      border-radius: 50px;
+      background: #e0e0e0;
+      box-shadow: inset -20px 20px 60px #bebebe, inset 20px -20px 60px #ffffff;
     }
   }
 }
