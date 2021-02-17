@@ -26,6 +26,10 @@ class Service {
     });
   };
 
+  getPost = (id) => {
+    return this._request("GET", `/posts/${id}`);
+  };
+
   getPosts = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

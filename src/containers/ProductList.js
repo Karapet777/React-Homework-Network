@@ -9,6 +9,7 @@ import Loader from "components/loader/Loader";
 const initialState = {
   Posts: null,
   loading: false,
+  start: 0,
 };
 const limit = 9;
 class ProductList extends Component {
@@ -17,9 +18,13 @@ class ProductList extends Component {
   };
 
   componentDidMount() {
-    service.getStartPosts(0, limit).then((data) => {
+    this.setState({
+      loading: true,
+    });
+    service.getStartPosts(this.state.start, limit).then((data) => {
       this.setState({
         Posts: data,
+        loading: false,
       });
     });
   }
@@ -48,10 +53,12 @@ class ProductList extends Component {
   };
 
   getMore = () => {
+    const newStart = this.state.start + limit;
     this.setState({
       loading: true,
+      start: newStart,
     });
-    service.getStartPosts(limit, limit).then((data) => {
+    service.getStartPosts(newStart, limit).then((data) => {
       this.setState({
         Posts: [...this.state.Posts, ...data],
         loading: false,
@@ -61,38 +68,42 @@ class ProductList extends Component {
 
   render() {
     const { Posts, loading } = this.state;
+
+    if (!Posts) {
+      return (
+        <div className="app-product-container__block-product">
+          <Loader />
+        </div>
+      );
+    }
+    if (Posts.length < 0) {
+      <div className="app-product-container__block-product">No Resault</div>;
+    }
+
     return (
       <div className="app-product-container">
         <div className="app-product-container__block-btns">
           <Button
             onClick={this.requestPosts}
             className="app-product-container__block-btns__btns"
-          >
-            request Posts
-          </Button>
+            title="request Posts"
+          />
         </div>
-        {!loading && Posts ? (
+        {
           <div className="app-product-container__block-product">
             {Posts.map((el) => (
-              <Post
-                key={el.id}
-                title={el.title}
-                body={el.body}
-                onClick={() => this.delete(el.id)}
-              />
+              <Post key={el.id} post={el} onClick={() => this.delete(el.id)} />
             ))}
             <Button
               onClick={this.getMore}
               className="app-product-container__block-btns__btns"
-            >
-              getMore
-            </Button>
+              title={
+                loading ? "loading..." : Posts.length < 0 ? "No" : "get more"
+              }
+              disabled={loading}
+            />
           </div>
-        ) : (
-          <div className="app-product-container__block-product">
-            <Loader />
-          </div>
-        )}
+        }
       </div>
     );
   }

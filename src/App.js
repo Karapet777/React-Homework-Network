@@ -1,14 +1,10 @@
 import React from "react";
-
-import Layout from "./components/layout/Layout";
-import ProductList from "containers/ProductList";
+import AppRoutes from "routes/AppRoutes";
 
 function App() {
   return (
     <div className="App">
-      <Layout>
-        <ProductList />
-      </Layout>
+      <AppRoutes />
     </div>
   );
 }
