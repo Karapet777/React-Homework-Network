@@ -1,9 +1,9 @@
 class Service {
   constructor() {
-    this.baseUrl = "https://jsonplaceholder.typicode.com";
+    this.baseUrl = "https://react-test-354b0-default-rtdb.firebaseio.com";
   }
   _request = (method, url, data = null) => {
-    return fetch(`${this.baseUrl}${url}`, {
+    return fetch(`${this.baseUrl}${url}.json`, {
       method,
       headers: data ? { "Contenet-Type": "applicatin/json" } : {},
       body: data ? JSON.stringify(data) : null,
@@ -40,6 +40,9 @@ class Service {
 
   deletePost = (id) => {
     return this._request("DELETE", `/posts/${id}`);
+  };
+  updatePost = (id, data) => {
+    return this._request("PATCH", `/posts/${id}`, data);
   };
 }
 

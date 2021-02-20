@@ -10,6 +10,7 @@ const initialState = {
   Posts: null,
   loading: false,
   start: 0,
+  hasMore: true,
 };
 const limit = 9;
 class ProductList extends Component {
@@ -18,10 +19,19 @@ class ProductList extends Component {
   };
 
   componentDidMount() {
+    // this.setState({
+    //   loading: true,
+    // });
+    // service.getStartPosts(this.state.start, limit).then((data) => {
+    //   this.setState({
+    //     Posts: data,
+    //     loading: false,
+    //   });
+    // });
     this.setState({
       loading: true,
     });
-    service.getStartPosts(this.state.start, limit).then((data) => {
+    service.getPosts().then((data) => {
       this.setState({
         Posts: data,
         loading: false,
@@ -62,12 +72,13 @@ class ProductList extends Component {
       this.setState({
         Posts: [...this.state.Posts, ...data],
         loading: false,
+        hasMore: data.length < limit ? false : true,
       });
     });
   };
 
   render() {
-    const { Posts, loading } = this.state;
+    const { Posts, loading, hasMore } = this.state;
 
     if (!Posts) {
       return (
@@ -92,16 +103,23 @@ class ProductList extends Component {
         {
           <div className="app-product-container__block-product">
             {Posts.map((el) => (
-              <Post key={el.id} post={el} onClick={() => this.delete(el.id)} />
+              <Post
+                key={el.id}
+                post={el}
+                onClick={() => this.delete(el.id)}
+                isLink
+              />
             ))}
-            <Button
-              onClick={this.getMore}
-              className="app-product-container__block-btns__btns"
-              title={
-                loading ? "loading..." : Posts.length < 0 ? "No" : "get more"
-              }
-              disabled={loading}
-            />
+            {hasMore && (
+              <Button
+                onClick={this.getMore}
+                className="app-product-container__block-btns__btns"
+                title={
+                  loading ? "loading..." : Posts.length < 0 ? "No" : "get more"
+                }
+                disabled={loading ? true : false}
+              />
+            )}
           </div>
         }
       </div>

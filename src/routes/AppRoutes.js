@@ -15,7 +15,7 @@ const AppRoutes = () => {
         <Header />
         <Layout>
           <Route exact path="/product" component={ProductList} />
-          <Route exact path="/product/:productId" component={ProductInfo} />
+          <Route exact path="/posts/:productId" component={ProductInfo} />
           <Route exact path="/todos" component={Todos} />
           <Route exact path="/" component={Home} />
         </Layout>

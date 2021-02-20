@@ -3,4 +3,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  &__modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__block {
+      width: 550px;
+      height: 350px;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &__input {
+        border: 1px solid black;
+        margin-right: 10px;
+      }
+      &__btn {
+        border: none;
+        padding: 5px 15px;
+        background-color: navy;
+        color: white;
+        border-radius: 8px;
+      }
+    }
+  }
 }

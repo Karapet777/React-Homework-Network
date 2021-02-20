@@ -1,0 +1,16 @@
+.navLink {
+  color: blue;
+  text-decoration: none;
+  font-size: 18px;
+  border: 1px solid transparent;
+  padding: 5px 10px;
+  border-radius: 10px;
+  &:hover {
+    background-color: blue;
+    color: white;
+  }
+}
+.navLink--active {
+  background-color: blue;
+  color: white;
+}
