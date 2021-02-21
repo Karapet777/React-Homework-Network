@@ -2,9 +2,11 @@ import React, { Component } from "react";
 
 import Post from "components/post/Post";
 import Button from "components/button/Button";
-import "containers/ProductList.scss";
 import service from "api/service";
+import fbService from "api/fbService";
 import Loader from "components/loader/Loader";
+
+import "containers/ProductList.scss";
 
 const initialState = {
   Posts: null,
@@ -12,29 +14,16 @@ const initialState = {
   start: 0,
   hasMore: true,
 };
-const limit = 9;
+const limit = 5;
 class ProductList extends Component {
   state = {
     ...initialState,
   };
 
   componentDidMount() {
-    // this.setState({
-    //   loading: true,
-    // });
-    // service.getStartPosts(this.state.start, limit).then((data) => {
-    //   this.setState({
-    //     Posts: data,
-    //     loading: false,
-    //   });
-    // });
-    this.setState({
-      loading: true,
-    });
-    service.getPosts().then((data) => {
+    fbService.getPosts(this.state.start, limit).then((data) => {
       this.setState({
         Posts: data,
-        loading: false,
       });
     });
   }
@@ -52,29 +41,50 @@ class ProductList extends Component {
     });
   };
 
-  delete = (id) => {
-    service.deletePost(id).then((data) => {
-      this.setState({
-        Posts: this.state.Posts.filter((el) => {
-          return el.id !== id;
-        }),
+  deletePost = (id) => {
+    fbService
+      .deletePost(id)
+      .then((data) => {
+        this.setState({
+          Posts: this.state.Posts.filter((el) => {
+            return el.id !== id;
+          }),
+        });
+      })
+      .catch((err) => {
+        console.error(err);
       });
-    });
   };
 
   getMore = () => {
-    const newStart = this.state.start + limit;
+    const newStart = this.state.start + limit + 1;
     this.setState({
       loading: true,
       start: newStart,
     });
-    service.getStartPosts(newStart, limit).then((data) => {
+    fbService.getPosts(newStart, newStart + limit).then((data) => {
       this.setState({
         Posts: [...this.state.Posts, ...data],
         loading: false,
         hasMore: data.length < limit ? false : true,
       });
+      console.log(data);
     });
+  };
+
+  createPost = () => {
+    fbService
+      .createPost({
+        title: "test",
+        body: "create Post",
+        userId: 1,
+        id: 21,
+      })
+      .then((data) => {
+        this.setState({
+          Posts: [...this.state.Posts, data],
+        });
+      });
   };
 
   render() {
@@ -86,9 +96,6 @@ class ProductList extends Component {
           <Loader />
         </div>
       );
-    }
-    if (Posts.length < 0) {
-      <div className="app-product-container__block-product">No Resault</div>;
     }
 
     return (
@@ -102,24 +109,32 @@ class ProductList extends Component {
         </div>
         {
           <div className="app-product-container__block-product">
-            {Posts.map((el) => (
-              <Post
-                key={el.id}
-                post={el}
-                onClick={() => this.delete(el.id)}
-                isLink
-              />
-            ))}
+            {Posts.length > 0 ? (
+              Posts.map((el) => (
+                <Post
+                  key={el.id}
+                  post={el}
+                  remove={() => this.deletePost(el.id)}
+                  isLink
+                />
+              ))
+            ) : (
+              <div>No results</div>
+            )}
             {hasMore && (
               <Button
                 onClick={this.getMore}
                 className="app-product-container__block-btns__btns"
-                title={
-                  loading ? "loading..." : Posts.length < 0 ? "No" : "get more"
-                }
+                title={loading ? "loading..." : "get more"}
                 disabled={loading ? true : false}
               />
             )}
+
+            <Button
+              onClick={this.createPost}
+              title="Create Post"
+              className="app-product-container__block-btns__btns"
+            />
           </div>
         }
       </div>

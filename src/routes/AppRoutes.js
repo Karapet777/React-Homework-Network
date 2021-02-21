@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Layout from "components/layout/Layout";
 import ProductList from "containers/ProductList";
@@ -14,10 +14,12 @@ const AppRoutes = () => {
       <BrowserRouter>
         <Header />
         <Layout>
-          <Route exact path="/product" component={ProductList} />
-          <Route exact path="/posts/:productId" component={ProductInfo} />
-          <Route exact path="/todos" component={Todos} />
-          <Route exact path="/" component={Home} />
+          <Switch>
+            <Route exact path="/product" component={ProductList} />
+            <Route exact path="/posts/:productId" component={ProductInfo} />
+            <Route exact path="/todos" component={Todos} />
+            <Route exact path="/" component={Home} />
+          </Switch>
         </Layout>
       </BrowserRouter>
     </div>

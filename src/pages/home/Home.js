@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import fbService from "api/fbService";
 // import { dataMockup } from "data/dataMockup";
 
 import "./Home.scss";
@@ -10,6 +11,10 @@ export class Home extends Component {
   //     body: JSON.stringify(dataMockup.map((el) => ({ ...el, id: el.id - 1 }))),
   //   });
   // }
+
+  componentDidMount() {
+    fbService.sendDataToFirebase();
+  }
 
   render() {
     return <div className="app-home-page">Home</div>;

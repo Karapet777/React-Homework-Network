@@ -6,12 +6,12 @@ import "./Post.scss";
 import Button from "components/button/Button";
 import Link from "components/Link/Link";
 
-const Post = ({
-  post,
-  onClick = () => {},
-  isLink = false,
-  edit = () => {},
-}) => {
+const Post = ({ post, remove = () => {}, isLink = false, edit = () => {} }) => {
+  // const removeHandler = (e) => {
+  //   e.preventDefault();
+  //   onClick();
+  // };
+
   const Wrapper = ({ children }) => {
     return isLink ? (
       <>
@@ -19,7 +19,7 @@ const Post = ({
         <div>
           <Button
             className="post-container__btn"
-            onClick={onClick}
+            onClick={remove}
             title="Delete Post"
           />
         </div>
@@ -43,9 +43,11 @@ const Post = ({
 };
 
 Post.propType = {
-  title: PropType.string.isRequired,
-  body: PropType.string.isRequired,
-  onclick: PropType.func,
+  post: PropType.shape({
+    title: PropType.string.isRequired,
+    body: PropType.string.isRequired,
+    remove: PropType.func,
+  }),
   id: PropType.number,
   isLink: PropType.bool,
   edit: PropType.func,
