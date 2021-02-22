@@ -78,7 +78,6 @@ class ProductList extends Component {
         title: "test",
         body: "create Post",
         userId: 1,
-        id: 21,
       })
       .then((data) => {
         this.setState({

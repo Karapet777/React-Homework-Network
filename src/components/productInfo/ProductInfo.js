@@ -17,6 +17,7 @@ export default class ProductInfo extends Component {
       titleValue: "",
       bodyValue: "",
     };
+    console.log(props);
   }
 
   componentDidMount() {

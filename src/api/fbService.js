@@ -50,8 +50,8 @@ class FbService {
   };
 
   createPost = async (postData) => {
-    const res = await firebase.database().ref("posts").push(postData);
-    return (await res.get()).val();
+    const res = firebase.database().ref(`posts/${postData.id}`).push(postData);
+    return await (await res.get()).val();
   };
 }
 
