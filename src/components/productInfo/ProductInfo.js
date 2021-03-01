@@ -1,12 +1,13 @@
 import React, { Component } from "react";
+
 import Modal from "@material-ui/core/Modal";
-
+import SaveIcon from "@material-ui/icons/Save";
 import Post from "components/post/Post";
-
-import "./ProductInfo.scss";
 import Button from "components/button/Button";
 import Loader from "components/loader/Loader";
 import fbService from "api/fbService";
+
+import "./ProductInfo.scss";
 
 export default class ProductInfo extends Component {
   constructor(props) {
@@ -17,15 +18,12 @@ export default class ProductInfo extends Component {
       titleValue: "",
       bodyValue: "",
     };
-    console.log(props);
   }
 
   componentDidMount() {
     fbService.getPost(this.props.match.params.productId).then((data) => {
       this.setState({
         post: data,
-        titleValue: data.title,
-        bodyValue: data.body,
       });
     });
   }
@@ -63,7 +61,11 @@ export default class ProductInfo extends Component {
     const { post, isEditPopupOpen, titleValue, bodyValue } = this.state;
 
     if (!post) {
-      return <Loader />;
+      return (
+        <div className="loader">
+          <Loader />
+        </div>
+      );
     }
     return (
       <div className="product-info">
@@ -74,22 +76,29 @@ export default class ProductInfo extends Component {
           onClose={this.toggleEditPopup}
         >
           <div className="product-info__modal__block">
+            <Button
+              title="&#9747;"
+              onClick={this.toggleEditPopup}
+              className="product-info__modal__close"
+            />
             <input
               value={titleValue}
               className="product-info__modal__block__input"
               type="text"
+              placeholder="Title"
               onChange={(e) => this.changeValue("titleValue", e.target.value)}
             />
             <input
               value={bodyValue}
               className="product-info__modal__block__input"
               type="text"
+              placeholder="Text"
               onChange={(e) => this.changeValue("bodyValue", e.target.value)}
             />
             <Button
               onClick={this.savePost}
               className="product-info__modal__block__btn"
-              title="Save"
+              title={<SaveIcon />}
             />
           </div>
         </Modal>

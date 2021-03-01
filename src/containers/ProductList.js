@@ -68,7 +68,6 @@ class ProductList extends Component {
         loading: false,
         hasMore: data.length < limit ? false : true,
       });
-      console.log(data);
     });
   };
 
@@ -91,7 +90,7 @@ class ProductList extends Component {
 
     if (!Posts) {
       return (
-        <div className="app-product-container__block-product">
+        <div className="app-product-container__loading">
           <Loader />
         </div>
       );
@@ -99,11 +98,16 @@ class ProductList extends Component {
 
     return (
       <div className="app-product-container">
-        <div className="app-product-container__block-btns">
+        <div className="app-product-container__btn-block">
+          <Button
+            onClick={this.createPost}
+            title="Create post"
+            className="app-product-container__btn-block__create"
+          />
           <Button
             onClick={this.requestPosts}
-            className="app-product-container__block-btns__btns"
-            title="request Posts"
+            className="app-product-container__btn-block__allPosts"
+            title="Get all Posts"
           />
         </div>
         {
@@ -123,17 +127,11 @@ class ProductList extends Component {
             {hasMore && (
               <Button
                 onClick={this.getMore}
-                className="app-product-container__block-btns__btns"
-                title={loading ? "loading..." : "get more"}
+                className="app-product-container__block-product__get-more"
+                title={loading ? "loading..." : "Get More"}
                 disabled={loading ? true : false}
               />
             )}
-
-            <Button
-              onClick={this.createPost}
-              title="Create Post"
-              className="app-product-container__block-btns__btns"
-            />
           </div>
         }
       </div>

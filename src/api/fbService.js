@@ -16,7 +16,8 @@ class FbService {
 
   getAllPosts = async () => {
     const res = await firebase.database().ref("posts").get();
-    return res.val();
+    const data = res.toJSON();
+    return Object.values(data);
   };
 
   getPosts = async (startAt = 0, endAt = 5) => {
@@ -28,7 +29,6 @@ class FbService {
       .endAt(endAt.toString())
       .get();
     const data = res.toJSON();
-    console.log(data);
     return Object.values(data);
   };
 
@@ -47,11 +47,36 @@ class FbService {
   deletePost = async (id) => {
     const postRef = firebase.database().ref(`posts/${id}`);
     await postRef.remove();
+
+    const allPosts = await this.getAllPosts();
+    await firebase
+      .database()
+      .ref("posts")
+      .set(
+        allPosts.map((el, index) => {
+          return {
+            ...el,
+            id: index,
+          };
+        })
+      );
   };
 
   createPost = async (postData) => {
-    const res = firebase.database().ref(`posts/${postData.id}`).push(postData);
-    return await (await res.get()).val();
+    const res = await firebase
+      .database()
+      .ref("posts")
+      .orderByKey()
+      .limitToLast(1)
+      .get();
+    const itemjson = res.toJSON();
+    const item = Object.values(itemjson)[0];
+    const { id } = item;
+    await firebase
+      .database()
+      .ref(`posts/${id + 1}`)
+      .set({ ...postData, id: id + 1 });
+    return { ...postData, id: id + 1 };
   };
 }
 

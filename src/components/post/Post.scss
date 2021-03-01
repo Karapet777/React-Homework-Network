@@ -1,27 +1,54 @@
 .post-container {
   margin: 10px;
-  border: 1px solid black;
   width: 300px;
-  height: 300px;
-  padding: 10px;
+  height: 400px;
+  padding: 30px;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   justify-content: space-between;
+  text-align: center;
+  position: relative;
+  border-radius: 20px;
+  background: #e0e0e0;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+  &:hover {
+    border-radius: 20px;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+    transform: scale(1.01);
+    transition: 0.2s;
+  }
+  &:hover &__btn {
+    bottom: 10px;
+    transition: all 0.1s;
+  }
   &__title {
     font-size: 20px;
     padding-bottom: 25px;
-    color: red;
+    color: black;
     font-weight: bold;
-  }
-  &__btn {
-    width: 100%;
-    padding: 5px 0;
-    border: none;
-    background-color: red;
-    color: white;
+    text-transform: uppercase;
   }
   &__body {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
     color: grey;
-    text-transform: capitalize;
+  }
+  &__btn {
+    display: block;
+    width: 50px;
+    margin: auto;
+    background-color: transparent;
+    border: none;
+    color: black;
+    position: absolute;
+    left: 120px;
+    bottom: -35px;
+    transition: all 0.9s;
+    &:hover {
+      transform: rotate(360deg) scale(1.5);
+      color: lightcoral;
+    }
   }
 }

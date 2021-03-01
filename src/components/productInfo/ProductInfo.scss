@@ -3,28 +3,63 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: lightcyan;
   &__modal {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    &__close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 20px;
+    }
     &__block {
       width: 550px;
       height: 350px;
-      background-color: white;
+      border-radius: 15px;
       display: flex;
+      backdrop-filter: blur(6px);
+      border: 3px solid white;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+      &:hover &__btn {
+        bottom: 55px;
+        transition: 0.1s;
+      }
       &__input {
         border: 1px solid black;
-        margin-right: 10px;
+        margin-bottom: 10px;
+        height: 35px;
+        padding: 10px;
+        width: 350px;
+        border-radius: 5px;
       }
       &__btn {
+        position: absolute;
+        bottom: -50px;
         border: none;
-        padding: 5px 15px;
-        background-color: navy;
-        color: white;
-        border-radius: 8px;
+        color: rgb(0, 0, 0);
+        background-color: transparent;
+        transition: 0.1s;
+        &:hover {
+          transform: scale(1.4);
+          color: lightcoral;
+        }
       }
     }
   }
+}
+.loader {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

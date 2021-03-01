@@ -1,6 +1,7 @@
 import React from "react";
 import PropType from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import "./Post.scss";
 import Button from "components/button/Button";
@@ -20,13 +21,17 @@ const Post = ({ post, remove = () => {}, isLink = false, edit = () => {} }) => {
           <Button
             className="post-container__btn"
             onClick={remove}
-            title="Delete Post"
+            title={<DeleteIcon />}
           />
         </div>
       </>
     ) : (
       <div>
-        <Button onClick={edit} title={<EditIcon />} />
+        <Button
+          className="post-container__btn"
+          onClick={edit}
+          title={<EditIcon />}
+        />
         {children}
       </div>
     );
