@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import firebaseConfig from "api/firebaseConfig";
 import "firebase/database";
+import "firebase/auth";
 import { dataMockup } from "data/dataMockup";
 
 class FbService {
@@ -77,6 +78,22 @@ class FbService {
       .ref(`posts/${id + 1}`)
       .set({ ...postData, id: id + 1 });
     return { ...postData, id: id + 1 };
+  };
+
+  login = async (credentials) => {
+    const res = await firebase
+      .auth()
+      .signInWithEmailAndPassword(credentials.email, credentials.password);
+    const { uid, photoURL, email, displayName } = res.user;
+    return { uid, photoURL, email, displayName };
+  };
+
+  signup = async (credentials) => {
+    const res = await firebase
+      .auth()
+      .createUserWithEmailAndPassword(credentials.email, credentials.password);
+    const { uid, photoURL, email, displayName } = res.user;
+    return { uid, photoURL, email, displayName };
   };
 }
 

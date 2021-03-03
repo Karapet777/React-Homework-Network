@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import NavLink from "components/navLink/NavLink";
@@ -18,6 +17,12 @@ const Header = () => {
   };
   window.addEventListener("scroll", headerHeandler);
 
+  const headerLinks = [
+    { to: "/product", title: "Product" },
+    { to: "/todos", title: "Todos" },
+    { to: "/auth", title: <VpnKeyIcon /> },
+  ];
+
   return (
     <div className={"app-header-container"}>
       <div
@@ -26,18 +31,11 @@ const Header = () => {
         <NavLink className="app-header-container__block__logo" to="/"></NavLink>
         <nav className="app-header-container__nav">
           <ul className="app-header-container__nav__list">
-            <li>
-              <NavLink to="/product">Product </NavLink>
-            </li>
-            <li>
-              <NavLink to="/todos">Todos</NavLink>
-            </li>
-            <li>
-              <NavLink to="/signUp">{<LockOpenIcon />}</NavLink>
-            </li>
-            <li>
-              <NavLink to="/signIn">{<VpnKeyIcon />}</NavLink>
-            </li>
+            {headerLinks.map((el) => (
+              <li key={el.to}>
+                <NavLink to={el.to}>{el.title}</NavLink>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>

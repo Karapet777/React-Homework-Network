@@ -6,7 +6,7 @@ import service from "api/service";
 import fbService from "api/fbService";
 import Loader from "components/loader/Loader";
 
-import "containers/ProductList.scss";
+import "containers/product/ProductList.scss";
 
 const initialState = {
   Posts: null,
