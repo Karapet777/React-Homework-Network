@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import NavLink from "components/navLink/NavLink";
+import { AppContext } from "context/AppContext";
 
 import "./Header.scss";
 
 const Header = () => {
   const [activeHeader, setActiveHeader] = useState(false);
+
+  const context = useContext(AppContext);
 
   const headerHeandler = () => {
     if (window.scrollY > 10) {
@@ -20,7 +23,6 @@ const Header = () => {
   const headerLinks = [
     { to: "/product", title: "Product" },
     { to: "/todos", title: "Todos" },
-    { to: "/auth", title: <VpnKeyIcon /> },
   ];
 
   return (
@@ -36,6 +38,15 @@ const Header = () => {
                 <NavLink to={el.to}>{el.title}</NavLink>
               </li>
             ))}
+            <li>
+              {!context.state.user ? (
+                <NavLink to={"/auth"}>
+                  <VpnKeyIcon />
+                </NavLink>
+              ) : (
+                <NavLink to={"/profile"}>Profile</NavLink>
+              )}
+            </li>
           </ul>
         </nav>
       </div>

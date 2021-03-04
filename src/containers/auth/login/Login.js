@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import Button from "components/button/Button";
 import Input from "components/input/Input";
 import fbService from "api/fbService";
 import "containers/auth/login/Login.scss";
+import { AppContext } from "context/AppContext";
 
 const Login = () => {
+  const context = useContext(AppContext);
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
-    passwordType: false,
   });
+
+  const [passwordType, setPasswordType] = useState(false);
 
   const changeHandler = (name, value) => {
     setCredentials({
@@ -20,15 +24,17 @@ const Login = () => {
   };
 
   const chengeTypePassword = () => {
-    setCredentials({
-      ...credentials,
-      passwordType: !credentials.passwordType,
-    });
+    setPasswordType(!passwordType);
   };
 
   const handlerLogin = async () => {
-    const user = await fbService.login(credentials);
-    console.log(user);
+    try {
+      const user = await fbService.login(credentials);
+      console.log(user);
+      context.dispatch({ type: "SET_USER", payload: { user } });
+    } catch (err) {
+      console.log("invalid profile");
+    }
   };
   return (
     <div className="app-login-container">
@@ -42,7 +48,7 @@ const Login = () => {
         value={credentials.password}
         onChenge={(e) => changeHandler("password", e.target.value)}
         placeholder="Password"
-        type={credentials.passwordType ? "text" : "password"}
+        type={passwordType ? "text" : "password"}
       />
       <span className="app-login-container__checkbox">
         <input type="checkbox" onChange={chengeTypePassword} />

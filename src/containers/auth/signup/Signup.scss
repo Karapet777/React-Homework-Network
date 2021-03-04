@@ -1,0 +1,47 @@
+// .errorClass {
+//   border-bottom: 1px solid red;
+// }
+.app-signup-container {
+  width: 300px;
+  height: 450px;
+  border: 1px solid #04527f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  backdrop-filter: blur(4px);
+  color: white;
+  &__errorText {
+    font-size: 12px;
+    color: red;
+    font-weight: bold;
+  }
+  &--errorClass {
+    border-bottom: 1px solid red;
+  }
+  &__title-page {
+    font-size: 30px;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+  }
+  &__btn {
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 20px;
+    padding: 5px;
+    border-bottom: 1px solid #04527f;
+    &:hover {
+      width: 75px;
+      cursor: pointer;
+    }
+  }
+  &__checkbox {
+    margin: 20px;
+    & span {
+      font-size: 14px;
+      font-style: italic;
+    }
+  }
+}

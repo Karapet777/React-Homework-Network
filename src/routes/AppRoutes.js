@@ -8,11 +8,13 @@ import Home from "pages/home/Home";
 import Todos from "pages/todos/Todos";
 import ProductInfo from "components/productInfo/ProductInfo";
 import Auth from "containers/auth/Auth";
+import Profile from "pages/profile/Profile";
+import AppContextProvider from "context/AppContextProvider";
 
 const AppRoutes = () => {
   return (
-    <div>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AppContextProvider>
         <Header />
         <Layout>
           <Switch>
@@ -20,14 +22,15 @@ const AppRoutes = () => {
             <Route path="/posts/:productId" component={ProductInfo} />
             <Route path="/todos" component={Todos} />
             <Route path="/auth" component={Auth} />
+            <Route path="/profile" component={Profile} />
             <Route exact path="/" component={Home} />
             <Route exact path="*">
               <div>404 Error</div>
             </Route>
           </Switch>
         </Layout>
-      </BrowserRouter>
-    </div>
+      </AppContextProvider>
+    </BrowserRouter>
   );
 };
 
