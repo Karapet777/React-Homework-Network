@@ -8,15 +8,15 @@ import { AppContext } from "context/AppContext";
 
 const Login = () => {
   const context = useContext(AppContext);
-
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
-
+  const [errorLogin, setErrorLogin] = useState(false);
   const [passwordType, setPasswordType] = useState(false);
 
   const changeHandler = (name, value) => {
+    setErrorLogin(false);
     setCredentials({
       ...credentials,
       [name]: value,
@@ -33,23 +33,29 @@ const Login = () => {
       console.log(user);
       context.dispatch({ type: "SET_USER", payload: { user } });
     } catch (err) {
-      console.log("invalid profile");
+      setErrorLogin(true);
     }
   };
+
   return (
     <div className="app-login-container">
       <p className="app-login-container__title-page">Login</p>
       <Input
+        className={errorLogin ? "app-login-container--error" : null}
         value={credentials.email}
         onChenge={(e) => changeHandler("email", e.target.value)}
         placeholder="Email"
       />
       <Input
+        className={errorLogin ? "app-login-container--error" : null}
         value={credentials.password}
         onChenge={(e) => changeHandler("password", e.target.value)}
         placeholder="Password"
         type={passwordType ? "text" : "password"}
       />
+      <p className="app-login-container--errorText">
+        {errorLogin && "Profile does not exist"}
+      </p>
       <span className="app-login-container__checkbox">
         <input type="checkbox" onChange={chengeTypePassword} />
         &nbsp; <span>show password</span>

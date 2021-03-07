@@ -4,6 +4,7 @@ import fbService from "api/fbService";
 import Input from "components/input/Input";
 import Button from "components/button/Button";
 import { AppContext } from "context/AppContext";
+import { validateEmail, validatePassword } from "utils/validate";
 
 import "containers/auth/signup/Signup.scss";
 
@@ -19,6 +20,7 @@ const Signup = () => {
   const [error, setError] = useState({
     errorEmail: "",
     errorPassword: "",
+    profileMatch: false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -39,24 +41,33 @@ const Signup = () => {
   };
 
   const handlerSignup = async () => {
-    try {
-      setLoading(true);
-      const user = await fbService.signup(credentials);
-      console.log(user);
-      context.dispatch({ type: "SET_USER", payload: { user } });
-    } catch (err) {
-      console.log(err);
-      if (err.code === "auth/invalid-email") {
-        setError({
-          errorEmail: err.message,
+    if (!validateEmail(credentials.email)) {
+      return setError({
+        errorEmail: "The email address is badly formatted.",
+      });
+    } else if (!validatePassword(credentials.password)) {
+      setError({
+        errorPassword: "Password should be at least 6 characters",
+      });
+    } else {
+      try {
+        setLoading(true);
+        const user = await fbService.signup(credentials);
+        console.log(user);
+        context.dispatch({ type: "SET_USER", payload: { user } });
+        setCredentials({
+          email: "",
+          password: "",
         });
-      } else if (err.code === "auth/weak-password") {
-        setError({
-          errorPassword: err.message,
-        });
+      } catch (err) {
+        if (err.code === "auth/email-already-in-use") {
+          return setError({
+            profileMatch: true,
+          });
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -82,6 +93,11 @@ const Signup = () => {
         loading={loading}
       />
       <p className="app-signup-container__errorText">{error.errorPassword}</p>
+
+      <p className="app-signup-container__errorText">
+        {error.profileMatch &&
+          "The email address is already in use by another account."}
+      </p>
 
       <span className="app-signup-container__checkbox">
         <input type="checkbox" onChange={chengeTypePassword} />

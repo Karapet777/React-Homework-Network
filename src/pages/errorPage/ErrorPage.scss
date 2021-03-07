@@ -1,0 +1,21 @@
+.error-container {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: black;
+  &__block {
+    background-size: cover;
+    text-align: center;
+    &__status {
+      font-size: 100px;
+      padding: 10px;
+      color: coral;
+    }
+    &__errText {
+      font-size: 50px;
+      padding: 10px;
+    }
+  }
+}

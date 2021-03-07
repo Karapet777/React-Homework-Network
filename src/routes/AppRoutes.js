@@ -10,6 +10,7 @@ import ProductInfo from "components/productInfo/ProductInfo";
 import Auth from "containers/auth/Auth";
 import Profile from "pages/profile/Profile";
 import AppContextProvider from "context/AppContextProvider";
+import ErrorPage from "pages/errorPage/ErrorPage";
 
 const AppRoutes = () => {
   return (
@@ -25,7 +26,7 @@ const AppRoutes = () => {
             <Route path="/profile" component={Profile} />
             <Route exact path="/" component={Home} />
             <Route exact path="*">
-              <div>404 Error</div>
+              <ErrorPage />
             </Route>
           </Switch>
         </Layout>

@@ -11,13 +11,14 @@ const Auth = () => {
   const toggleChengePage = () => {
     setIsLogin(!isLogin);
   };
+
   return (
     <div className="app-auth-container">
       {isLogin ? <Login /> : <Signup />}
       <Button
         className="app-auth-container__btn"
         onClick={toggleChengePage}
-        title={isLogin ? "Go to signup ?" : "Go to Login ?"}
+        title={isLogin ? "Don't have an account? ?" : "Go to Login ?"}
       />
     </div>
   );
