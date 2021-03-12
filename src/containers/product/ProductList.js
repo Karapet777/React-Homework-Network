@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import SettingsIcon from "@material-ui/icons/Settings";
+import Modal from "@material-ui/core/Modal";
 
 import Post from "components/post/Post";
 import Button from "components/button/Button";
 import service from "api/service";
 import fbService from "api/fbService";
 import Loader from "components/loader/Loader";
+import Input from "components/input/Input";
 
 import "containers/product/ProductList.scss";
 
@@ -13,6 +16,10 @@ const initialState = {
   loading: false,
   start: 0,
   hasMore: true,
+  showSetting: false,
+  isOpenModal: false,
+  createTitle: "",
+  createBody: "",
 };
 const limit = 5;
 class ProductList extends Component {
@@ -71,11 +78,19 @@ class ProductList extends Component {
     });
   };
 
+  chengeValue = (name, value) => {
+    this.setState({
+      // ...initialState,
+      [name]: value,
+    });
+  };
+
   createPost = () => {
+    this.newPost();
     fbService
       .createPost({
-        title: "test",
-        body: "create Post",
+        title: this.state.createTitle,
+        body: this.state.createBody,
         userId: 1,
       })
       .then((data) => {
@@ -85,8 +100,30 @@ class ProductList extends Component {
       });
   };
 
+  newPost = () => {
+    this.setState({
+      isOpenModal: !this.state.isOpenModal,
+      createTitle: "",
+      createBody: "",
+    });
+  };
+
+  toggleSetting = () => {
+    this.setState({
+      showSetting: !this.state.showSetting,
+    });
+  };
+
   render() {
-    const { Posts, loading, hasMore } = this.state;
+    const {
+      Posts,
+      loading,
+      hasMore,
+      showSetting,
+      isOpenModal,
+      createTitle,
+      createBody,
+    } = this.state;
 
     if (!Posts) {
       return (
@@ -98,17 +135,48 @@ class ProductList extends Component {
 
     return (
       <div className="app-product-container">
+        <Modal
+          className="app-product-container__modal"
+          open={isOpenModal}
+          onClose={this.newPost}
+        >
+          <div className="app-product-container__modal__block">
+            <p>New post</p>
+            <Input
+              className="app-product-container__modal__block__input"
+              value={createTitle}
+              placeholder="Title"
+              onChenge={(e) => this.chengeValue("createTitle", e.target.value)}
+            />
+            <Input
+              className="app-product-container__modal__block__input"
+              value={createBody}
+              placeholder="body"
+              onChenge={(e) => this.chengeValue("createBody", e.target.value)}
+            />
+            <Button title="Save post" onClick={this.createPost} />
+          </div>
+        </Modal>
+        ;
         <div className="app-product-container__btn-block">
-          <Button
-            onClick={this.createPost}
-            title="Create post"
-            className="app-product-container__btn-block__create"
+          <SettingsIcon
+            onClick={this.toggleSetting}
+            className="app-product-container__btn-block__setting"
           />
-          <Button
-            onClick={this.requestPosts}
-            className="app-product-container__btn-block__allPosts"
-            title="Get all Posts"
-          />
+          {showSetting && (
+            <>
+              <Button
+                onClick={this.newPost}
+                title="New post"
+                className="app-product-container__btn-block__btns"
+              />
+              <Button
+                onClick={this.requestPosts}
+                className="app-product-container__btn-block__btns"
+                title="Get all Posts"
+              />
+            </>
+          )}
         </div>
         {
           <div className="app-product-container__block-product">

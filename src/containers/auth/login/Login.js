@@ -5,9 +5,11 @@ import Input from "components/input/Input";
 import fbService from "api/fbService";
 import "containers/auth/login/Login.scss";
 import { AppContext } from "context/AppContext";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const context = useContext(AppContext);
+  const history = useHistory();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -32,6 +34,8 @@ const Login = () => {
       const user = await fbService.login(credentials);
       console.log(user);
       context.dispatch({ type: "SET_USER", payload: { user } });
+      localStorage.setItem("user", JSON.stringify(user));
+      history.push("/profile");
     } catch (err) {
       setErrorLogin(true);
     }

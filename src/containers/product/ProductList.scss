@@ -1,12 +1,34 @@
 .app-product-container {
   display: grid;
   grid-template-columns: auto;
-  background-color: lightcyan;
+  background-color: #00457c;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   padding-top: 100px;
+  &__modal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__block {
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 400px;
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 15px;
+      padding: 10px;
+      &__input {
+        color: black;
+      }
+    }
+  }
   &__loading {
     width: 100%;
     height: 100%;
@@ -15,38 +37,26 @@
     align-items: center;
   }
   &__btn-block {
-    position: fixed;
-    left: 0;
-    top: 30%;
+    height: 50px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    max-width: 300px;
     align-items: center;
-    height: 300px;
-    background-color: lightskyblue;
-    border-radius: 10px;
-    &__create {
-      width: 150px;
-      margin-bottom: 15px;
-      border: none;
-      background: transparent;
+    justify-content: center;
+    &__setting {
+      color: white;
+      margin: 0 10px;
+      transition: 0.5s;
+      cursor: pointer;
       &:hover {
-        border: 1px solid #000;
-        font-weight: bold;
+        transform: rotate(180deg);
+        transition: 0.5s;
       }
     }
-    &__allPosts {
-      background: transparent;
-
+    &__btns {
+      margin-left: 10px;
+      border-radius: 7px;
       border: none;
-      width: 150px;
-      &:hover {
-        border: 1px solid #000;
-
-        font-weight: bold;
-      }
+      padding: 5px 10px;
+      transition: all 0.5s;
     }
   }
   &__block-product {

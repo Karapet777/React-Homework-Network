@@ -9,28 +9,25 @@ import Todos from "pages/todos/Todos";
 import ProductInfo from "components/productInfo/ProductInfo";
 import Auth from "containers/auth/Auth";
 import Profile from "pages/profile/Profile";
-import AppContextProvider from "context/AppContextProvider";
 import ErrorPage from "pages/errorPage/ErrorPage";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
-      <AppContextProvider>
-        <Header />
-        <Layout>
-          <Switch>
-            <Route exact path="/product" component={ProductList} />
-            <Route path="/posts/:productId" component={ProductInfo} />
-            <Route path="/todos" component={Todos} />
-            <Route path="/auth" component={Auth} />
-            <Route path="/profile" component={Profile} />
-            <Route exact path="/" component={Home} />
-            <Route exact path="*">
-              <ErrorPage />
-            </Route>
-          </Switch>
-        </Layout>
-      </AppContextProvider>
+      <Header />
+      <Layout>
+        <Switch>
+          <Route exact path="/product" component={ProductList} />
+          <Route path="/posts/:productId" component={ProductInfo} />
+          <Route path="/todos" component={Todos} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/profile" component={Profile} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="*">
+            <ErrorPage />
+          </Route>
+        </Switch>
+      </Layout>
     </BrowserRouter>
   );
 };

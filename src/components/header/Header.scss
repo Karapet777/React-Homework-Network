@@ -10,7 +10,12 @@
   padding: 5px 0;
   background-color: transparent;
   transition: 0.5s;
-
+  &__logOute {
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+  }
   &__block {
     width: 100%;
     max-width: 900px;
@@ -25,14 +30,16 @@
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      background: url(../../assets/logo.jpg);
+      background: url(../../assets/logoPen.jpg);
       background-position: center;
-      background-size: cover;
+      background-size: 80%;
+      background-repeat: no-repeat;
     }
   }
   &__nav {
     &__list {
       display: flex;
+      align-items: center;
       & li {
         margin-left: 10px;
       }
@@ -46,7 +53,7 @@
   position: absolute;
   top: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   background-color: white;
 }

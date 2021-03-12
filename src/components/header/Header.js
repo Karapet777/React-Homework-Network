@@ -1,14 +1,18 @@
 import React, { useState, useContext } from "react";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import NavLink from "components/navLink/NavLink";
 import { AppContext } from "context/AppContext";
+import Button from "components/button/Button";
+import { useHistory } from "react-router-dom";
+import fbService from "api/fbService";
 
 import "./Header.scss";
 
 const Header = () => {
   const [activeHeader, setActiveHeader] = useState(false);
-
+  const history = useHistory();
   const context = useContext(AppContext);
 
   const headerHeandler = () => {
@@ -25,6 +29,12 @@ const Header = () => {
     { to: "/todos", title: "Todos" },
   ];
 
+  const removeUser = async () => {
+    await fbService.logout();
+    localStorage.removeItem("user");
+    context.dispatch({ type: "REMOVE_USER" });
+    history.push("./auth");
+  };
   return (
     <div className={"app-header-container"}>
       <div
@@ -47,6 +57,15 @@ const Header = () => {
                 <NavLink to={"/profile"}>Profile</NavLink>
               )}
             </li>
+            {context.state.user && (
+              <li>
+                <Button
+                  onClick={removeUser}
+                  className="app-header-container__logOute"
+                  title={<ExitToAppIcon />}
+                />
+              </li>
+            )}
           </ul>
         </nav>
       </div>

@@ -1,9 +1,11 @@
 .product-info {
-  height: calc(100vh - 100px);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightcyan;
+  background: url(../../assets/add.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
   &__modal {
     display: flex;
     justify-content: center;

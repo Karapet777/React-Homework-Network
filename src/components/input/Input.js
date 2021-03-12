@@ -12,7 +12,7 @@ const Input = ({
 }) => {
   return (
     <input
-      className={`app-auth-input ${className}`}
+      className={`app-input  ${className}`}
       value={value}
       onChange={onChenge}
       type={type}

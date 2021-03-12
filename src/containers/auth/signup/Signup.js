@@ -5,15 +5,18 @@ import Input from "components/input/Input";
 import Button from "components/button/Button";
 import { AppContext } from "context/AppContext";
 import { validateEmail, validatePassword } from "utils/validate";
+import { useHistory } from "react-router-dom";
 
 import "containers/auth/signup/Signup.scss";
 
 const Signup = () => {
+  const histrory = useHistory();
   const context = useContext(AppContext);
 
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+    name: "",
   });
   const [passwordType, setpasswordType] = useState(false);
 
@@ -59,6 +62,8 @@ const Signup = () => {
           email: "",
           password: "",
         });
+        localStorage.setItem("user", JSON.stringify(user));
+        histrory.push("/profile");
       } catch (err) {
         if (err.code === "auth/email-already-in-use") {
           return setError({
@@ -74,6 +79,13 @@ const Signup = () => {
   return (
     <div className="app-signup-container">
       <p className="app-signup-container__title-page">Signup</p>
+      <Input
+        className={error.errorName ? "app-signup-container--errorClass" : null}
+        value={credentials.name}
+        placeholder="Name"
+        onChenge={(e) => changeHandler("name", e.target.value)}
+        loading={loading}
+      />
       <Input
         className={error.errorEmail ? "app-signup-container--errorClass" : null}
         value={credentials.email}

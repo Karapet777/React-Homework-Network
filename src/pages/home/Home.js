@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import fbService from "api/fbService";
+
 // import { dataMockup } from "data/dataMockup";
 
 import "./Home.scss";
@@ -17,7 +18,7 @@ export class Home extends Component {
   }
 
   render() {
-    return <div className="app-home-page">Home</div>;
+    return <div className="app-home-container"></div>;
   }
 }
 

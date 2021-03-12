@@ -5,6 +5,11 @@ const appReducer = (state, action) => {
         ...state,
         user: action.payload.user,
       };
+    case "REMOVE_USER":
+      return {
+        ...state,
+        user: null,
+      };
     default:
       return state;
   }
