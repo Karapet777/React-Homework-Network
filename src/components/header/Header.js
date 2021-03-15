@@ -4,9 +4,9 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import NavLink from "components/navLink/NavLink";
 import { AppContext } from "context/AppContext";
-import Button from "components/button/Button";
 import { useHistory } from "react-router-dom";
 import fbService from "api/fbService";
+import { actionTypes } from "context/actionTypes";
 
 import "./Header.scss";
 
@@ -32,15 +32,18 @@ const Header = () => {
   const removeUser = async () => {
     await fbService.logout();
     localStorage.removeItem("user");
-    context.dispatch({ type: "REMOVE_USER" });
+    context.dispatch({ type: actionTypes.REMOVE_USER });
     history.push("./auth");
   };
   return (
-    <div className={"app-header-container"}>
-      <div
-        className={activeHeader ? "activHeader" : "app-header-container__block"}
-      >
-        <NavLink className="app-header-container__block__logo" to="/"></NavLink>
+    <div className="app-header-container">
+      <div className={"app-header-container__block"}>
+        <NavLink
+          className={
+            activeHeader ? "activHeader" : "app-header-container__block__logo"
+          }
+          to="/"
+        ></NavLink>
         <nav className="app-header-container__nav">
           <ul className="app-header-container__nav__list">
             {headerLinks.map((el) => (
@@ -59,10 +62,9 @@ const Header = () => {
             </li>
             {context.state.user && (
               <li>
-                <Button
+                <ExitToAppIcon
                   onClick={removeUser}
                   className="app-header-container__logOute"
-                  title={<ExitToAppIcon />}
                 />
               </li>
             )}

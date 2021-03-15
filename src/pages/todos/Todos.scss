@@ -1,7 +1,11 @@
+@import "~style/root";
+
 .app-todo-page {
-  height: calc(100vh - 100px);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
+  font-size: 80px;
+  background-color: $secondaryColor;
+  color: $postsColor;
 }

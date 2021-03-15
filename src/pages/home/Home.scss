@@ -1,12 +1,11 @@
+@import "~style/root";
+
 .app-home-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: $postsColor;
+  background-color: $secondaryColor;
+  font-size: 80px;
 }

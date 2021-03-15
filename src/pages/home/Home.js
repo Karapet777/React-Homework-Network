@@ -15,10 +15,11 @@ export class Home extends Component {
 
   componentDidMount() {
     fbService.sendDataToFirebase();
+    fbService.sendTodoToFirabase();
   }
 
   render() {
-    return <div className="app-home-container"></div>;
+    return <div className="app-home-container">Home </div>;
   }
 }
 

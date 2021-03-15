@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import firebaseConfig from "api/firebaseConfig";
 import "firebase/database";
 import "firebase/auth";
-import { dataMockup } from "data/dataMockup";
+import { dataMockup, dataTodo } from "data/dataMockup";
 
 class FbService {
   constructor() {
@@ -13,6 +13,10 @@ class FbService {
 
   sendDataToFirebase = () => {
     firebase.database().ref("posts").set(dataMockup);
+  };
+
+  sendTodoToFirabase = () => {
+    firebase.database().ref("todo").set(dataTodo);
   };
 
   getAllPosts = async () => {

@@ -3,39 +3,24 @@ import PropType from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import Button from "components/button/Button";
 import Link from "components/Link/Link";
 import { AppContext } from "context/AppContext";
 
 import "./Post.scss";
 
 const Post = ({ post, remove = () => {}, isLink = false, edit = () => {} }) => {
-  // const removeHandler = (e) => {
-  //   e.preventDefault();
-  //   onClick();
-  // };
   const context = useContext(AppContext);
   const Wrapper = ({ children }) => {
     return isLink ? (
       <>
         <Link to={`/posts/${post.id}`}>{children}</Link>
-        {context.state.user ? (
-          <div>
-            <Button
-              className="post-container__btn"
-              onClick={remove}
-              title={<DeleteIcon />}
-            />
-          </div>
-        ) : null}
+        <div>
+          <DeleteIcon className="post-container__btn" onClick={remove} />
+        </div>
       </>
     ) : (
       <div>
-        <Button
-          className="post-container__btn"
-          onClick={edit}
-          title={<EditIcon />}
-        />
+        <EditIcon className="post-container__btn" onClick={edit} />
         {children}
       </div>
     );
@@ -43,10 +28,17 @@ const Post = ({ post, remove = () => {}, isLink = false, edit = () => {} }) => {
 
   return (
     <div className="post-container">
-      <Wrapper>
-        <p className="post-container__title">{post?.title}</p>
-        <p className="post-container__body">{post?.body}</p>
-      </Wrapper>
+      {context.state.user ? (
+        <Wrapper>
+          <p className="post-container__title">{post?.title}</p>
+          <p className="post-container__body">{post?.body}</p>
+        </Wrapper>
+      ) : (
+        <>
+          <p className="post-container__title">{post?.title}</p>
+          <p className="post-container__body">{post?.body}</p>
+        </>
+      )}
     </div>
   );
 };

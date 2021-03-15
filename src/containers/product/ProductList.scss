@@ -1,7 +1,9 @@
+@import "~style/_root";
+
 .app-product-container {
   display: grid;
   grid-template-columns: auto;
-  background-color: #00457c;
+  background-color: $secondaryColor;
   position: absolute;
   top: 0;
   left: 0;
@@ -14,18 +16,23 @@
     justify-content: center;
     align-items: center;
     &__block {
-      background-color: white;
+      background-color: $secondaryColor;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 400px;
-      height: 350px;
+      height: 450px;
       display: flex;
       flex-direction: column;
       border-radius: 15px;
       padding: 10px;
       &__input {
         color: black;
+      }
+      &__titil{
+        font-size: 25px;
+        color: $primaryColor;
+        font-weight: bold;
       }
     }
   }
@@ -35,6 +42,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: $secondaryColor;
   }
   &__btn-block {
     height: 50px;
@@ -55,8 +63,15 @@
       margin-left: 10px;
       border-radius: 7px;
       border: none;
-      padding: 5px 10px;
-      transition: all 0.5s;
+      padding: 5px 15px;
+      background-color: transparent;
+      color: $primaryColor;
+      font-weight: bold;
+      &:hover {
+        border-bottom: 1px solid $textColor;
+      color: $primaryColor;
+
+      }
     }
   }
   &__block-product {
@@ -68,6 +83,17 @@
       padding: 5px;
       width: 150px;
       margin-bottom: 20px;
+      background-color: transparent;
+      border: none;
+      border-radius: 10px;
+      color: $primaryColor;
+      font-weight: bold;
+      border: 2px solid $textColor;
+      &:hover {
+        border: 2px solid $primaryColor;
+        color: $textColor;
+       
+      }
     }
   }
   &__block-btns {

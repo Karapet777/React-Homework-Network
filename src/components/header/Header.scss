@@ -8,13 +8,11 @@
   height: $header-size;
   z-index: 100;
   padding: 5px 0;
-  background-color: transparent;
+  background-color: $primaryColor;
   transition: 0.5s;
   &__logOute {
-    border: none;
-    padding: 0;
-    margin: 0;
-    background: transparent;
+    color: white;
+    cursor: pointer;
   }
   &__block {
     width: 100%;
@@ -29,10 +27,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 50%;
-      background: url(../../assets/logoPen.jpg);
+      border-radius: 10px;
+      background: url(../../assets/logoColor.jpg);
       background-position: center;
-      background-size: 80%;
+      background-size: cover;
       background-repeat: no-repeat;
     }
   }
@@ -46,14 +44,17 @@
     }
   }
 }
-
 .activHeader {
-  width: 100%;
-  height: $header-size;
-  position: absolute;
-  top: 0;
+  width: 50px;
+  height: 50px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  background-color: white;
+  border-radius: 50%;
+  background: url(../../assets/logoColor.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: rotate(360deg);
+  transition: 0.9s ease-in-out;
 }

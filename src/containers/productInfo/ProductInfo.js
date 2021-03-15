@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import Modal from "@material-ui/core/Modal";
 import SaveIcon from "@material-ui/icons/Save";
@@ -6,10 +7,12 @@ import Post from "components/post/Post";
 import Button from "components/button/Button";
 import Loader from "components/loader/Loader";
 import fbService from "api/fbService";
+import { AppContext } from "context/AppContext";
 
 import "./ProductInfo.scss";
+import { actionTypes } from "context/actionTypes";
 
-export default class ProductInfo extends Component {
+class ProductInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,6 +22,7 @@ export default class ProductInfo extends Component {
       bodyValue: "",
     };
   }
+  static contextType = AppContext;
 
   componentDidMount() {
     fbService.getPost(this.props.match.params.productId).then((data) => {
@@ -46,14 +50,25 @@ export default class ProductInfo extends Component {
         body: this.state.bodyValue,
       })
       .then((res) => {
+        const newData = {
+          ...this.state.post,
+          title: this.state.titleValue,
+          body: this.state.bodyValue,
+        };
         this.setState({
-          post: {
-            ...this.state.post,
-            title: this.state.titleValue,
-            body: this.state.bodyValue,
-          },
+          post: newData,
           isEditPopupOpen: false,
         });
+        this.props.history.push("/product");
+        const {
+          state: { Posts },
+        } = this.context;
+        if (Posts && Posts.find((el) => el.id === this.state.post.id)) {
+          this.context.dispatch({
+            type: actionTypes.UPDATE_POSTS,
+            payload: { post: newData },
+          });
+        }
       });
   };
 
@@ -95,10 +110,9 @@ export default class ProductInfo extends Component {
               placeholder="Text"
               onChange={(e) => this.changeValue("bodyValue", e.target.value)}
             />
-            <Button
-              onClick={this.savePost}
+            <SaveIcon
               className="product-info__modal__block__btn"
-              title={<SaveIcon />}
+              onClick={this.savePost}
             />
           </div>
         </Modal>
@@ -106,3 +120,5 @@ export default class ProductInfo extends Component {
     );
   }
 }
+
+export default withRouter(ProductInfo);

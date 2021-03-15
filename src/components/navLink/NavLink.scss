@@ -1,9 +1,12 @@
+@import "~style/root";
+
 .navLink {
-  color: black;
+  color: white;
   text-decoration: none;
   font-size: 18px;
   padding: 5px 10px;
 }
 .navLink--active {
   font-weight: bold;
+  color: $postsColor;
 }

@@ -6,7 +6,7 @@ import ProductList from "containers/product/ProductList";
 import Header from "components/header/Header";
 import Home from "pages/home/Home";
 import Todos from "pages/todos/Todos";
-import ProductInfo from "components/productInfo/ProductInfo";
+import ProductInfo from "containers/productInfo/ProductInfo";
 import Auth from "containers/auth/Auth";
 import Profile from "pages/profile/Profile";
 import ErrorPage from "pages/errorPage/ErrorPage";

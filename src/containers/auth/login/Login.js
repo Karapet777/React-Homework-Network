@@ -3,9 +3,10 @@ import React, { useState, useContext } from "react";
 import Button from "components/button/Button";
 import Input from "components/input/Input";
 import fbService from "api/fbService";
-import "containers/auth/login/Login.scss";
 import { AppContext } from "context/AppContext";
 import { useHistory } from "react-router-dom";
+
+import "containers/auth/login/Login.scss";
 
 const Login = () => {
   const context = useContext(AppContext);
@@ -35,6 +36,10 @@ const Login = () => {
       console.log(user);
       context.dispatch({ type: "SET_USER", payload: { user } });
       localStorage.setItem("user", JSON.stringify(user));
+      setCredentials({
+        ...credentials,
+        name: user.displayName,
+      });
       history.push("/profile");
     } catch (err) {
       setErrorLogin(true);

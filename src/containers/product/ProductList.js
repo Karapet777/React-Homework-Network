@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import SettingsIcon from "@material-ui/icons/Settings";
 import Modal from "@material-ui/core/Modal";
+import SaveIcon from "@material-ui/icons/Save";
 
 import Post from "components/post/Post";
 import Button from "components/button/Button";
-import service from "api/service";
 import fbService from "api/fbService";
 import Loader from "components/loader/Loader";
 import Input from "components/input/Input";
+import { AppContext } from "context/AppContext";
+import { actionTypes } from "context/actionTypes";
 
 import "containers/product/ProductList.scss";
 
 const initialState = {
-  Posts: null,
   loading: false,
   start: 0,
   hasMore: true,
@@ -27,23 +28,37 @@ class ProductList extends Component {
     ...initialState,
   };
 
+  static contextType = AppContext;
+
   componentDidMount() {
-    fbService.getPosts(this.state.start, limit).then((data) => {
-      this.setState({
-        Posts: data,
+    if (!this.context.state.Posts) {
+      fbService.getPosts(this.state.start, limit).then((data) => {
+        this.context.dispatch({
+          type: actionTypes.SET_POSTS,
+          payload: { Posts: data },
+        });
       });
-    });
+    }
   }
 
-  requestPosts = () => {
+  getAllPosts = () => {
+    const {
+      state: { Posts },
+    } = this.context;
+    if (Posts) {
+      return (this.context.state.Posts = null);
+    }
     this.setState({
-      Posts: null,
       loading: true,
     });
-    service.getPosts().then((data) => {
+    fbService.getAllPosts().then((data) => {
+      this.context.dispatch({
+        type: actionTypes.GET_ALL_POSTS,
+        payload: { posts: data },
+      });
       this.setState({
-        Posts: data,
         loading: false,
+        hasMore: false,
       });
     });
   };
@@ -70,8 +85,11 @@ class ProductList extends Component {
       start: newStart,
     });
     fbService.getPosts(newStart, newStart + limit).then((data) => {
+      this.context.dispatch({
+        type: actionTypes.GET_MORE_POSTS,
+        payload: { Posts: data },
+      });
       this.setState({
-        Posts: [...this.state.Posts, ...data],
         loading: false,
         hasMore: data.length < limit ? false : true,
       });
@@ -80,7 +98,6 @@ class ProductList extends Component {
 
   chengeValue = (name, value) => {
     this.setState({
-      // ...initialState,
       [name]: value,
     });
   };
@@ -94,8 +111,9 @@ class ProductList extends Component {
         userId: 1,
       })
       .then((data) => {
-        this.setState({
-          Posts: [...this.state.Posts, data],
+        this.context.dispatch({
+          type: actionTypes.CREATE_POSTS,
+          payload: { post: data },
         });
       });
   };
@@ -116,7 +134,6 @@ class ProductList extends Component {
 
   render() {
     const {
-      Posts,
       loading,
       hasMore,
       showSetting,
@@ -125,7 +142,11 @@ class ProductList extends Component {
       createBody,
     } = this.state;
 
-    if (!Posts) {
+    const {
+      state: { Posts },
+    } = this.context;
+
+    if (!Posts || loading) {
       return (
         <div className="app-product-container__loading">
           <Loader />
@@ -141,7 +162,9 @@ class ProductList extends Component {
           onClose={this.newPost}
         >
           <div className="app-product-container__modal__block">
-            <p>New post</p>
+            <p className="app-product-container__modal__block__titil">
+              New post
+            </p>
             <Input
               className="app-product-container__modal__block__input"
               value={createTitle}
@@ -154,30 +177,32 @@ class ProductList extends Component {
               placeholder="body"
               onChenge={(e) => this.chengeValue("createBody", e.target.value)}
             />
-            <Button title="Save post" onClick={this.createPost} />
+            <SaveIcon onClick={this.createPost} />
           </div>
         </Modal>
         ;
-        <div className="app-product-container__btn-block">
-          <SettingsIcon
-            onClick={this.toggleSetting}
-            className="app-product-container__btn-block__setting"
-          />
-          {showSetting && (
-            <>
-              <Button
-                onClick={this.newPost}
-                title="New post"
-                className="app-product-container__btn-block__btns"
-              />
-              <Button
-                onClick={this.requestPosts}
-                className="app-product-container__btn-block__btns"
-                title="Get all Posts"
-              />
-            </>
-          )}
-        </div>
+        {this.context.state.user && (
+          <div className="app-product-container__btn-block">
+            <SettingsIcon
+              onClick={this.toggleSetting}
+              className="app-product-container__btn-block__setting"
+            />
+            {showSetting && (
+              <>
+                <Button
+                  onClick={this.newPost}
+                  title="New post"
+                  className="app-product-container__btn-block__btns"
+                />
+                <Button
+                  onClick={this.getAllPosts}
+                  className="app-product-container__btn-block__btns"
+                  title="Get all posts"
+                />
+              </>
+            )}
+          </div>
+        )}
         {
           <div className="app-product-container__block-product">
             {Posts.length > 0 ? (
@@ -196,7 +221,7 @@ class ProductList extends Component {
               <Button
                 onClick={this.getMore}
                 className="app-product-container__block-product__get-more"
-                title={loading ? "loading..." : "Get More"}
+                title={loading ? "...loading " : "Get More"}
                 disabled={loading ? true : false}
               />
             )}

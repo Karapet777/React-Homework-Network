@@ -1,36 +1,38 @@
+@import "~style/root";
+
 .post-container {
   margin: 10px;
   width: 300px;
   height: 400px;
   padding: 30px;
-  display: flex;
   overflow: hidden;
-  flex-direction: column;
-  justify-content: space-between;
   text-align: center;
-  position: relative;
   border-radius: 20px;
-  background: #e0e0e0;
+  background: $postsColor;
+  position: relative;
+  transition: 0.5s;
   &:hover {
-    border-radius: 20px;
     transform: scale(1.01);
-    transition: 0.2s;
   }
   &:hover &__btn {
-    bottom: 10px;
-    transition: all 0.1s;
+    bottom: 15px;
+    transition:  0.5s;
+    cursor: pointer;
+    transform: rotate(360deg) scale(1.5);
+
   }
   &__title {
     font-size: 20px;
     padding-bottom: 25px;
-    color: black;
+    color: $primaryColor;
     font-weight: bold;
     text-transform: uppercase;
   }
   &__body {
     font-family: "Cormorant Garamond", serif;
-    font-size: 20px;
+    font-size: 19px;
     color: grey;
+    font-style: italic;
   }
   &__btn {
     display: block;
@@ -40,11 +42,10 @@
     border: none;
     color: black;
     position: absolute;
-    left: 120px;
+    left: 135px;
     bottom: -35px;
-    transition: all 0.9s;
+    transition:  0.9s;
     &:hover {
-      transform: rotate(360deg) scale(1.5);
       color: lightcoral;
     }
   }

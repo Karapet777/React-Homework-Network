@@ -1,7 +1,12 @@
+@import "~style/root";
+
+
 .app-profile-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  font-size: 40px;
+  font-size: 80px;
+  background-color: $secondaryColor;
+  color: $postsColor;
 }

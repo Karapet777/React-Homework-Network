@@ -6,6 +6,7 @@ import Button from "components/button/Button";
 import { AppContext } from "context/AppContext";
 import { validateEmail, validatePassword } from "utils/validate";
 import { useHistory } from "react-router-dom";
+import { actionTypes } from "context/actionTypes";
 
 import "containers/auth/signup/Signup.scss";
 
@@ -57,7 +58,7 @@ const Signup = () => {
         setLoading(true);
         const user = await fbService.signup(credentials);
         console.log(user);
-        context.dispatch({ type: "SET_USER", payload: { user } });
+        context.dispatch({ type: actionTypes.SET_USER, payload: { user } });
         setCredentials({
           email: "",
           password: "",
