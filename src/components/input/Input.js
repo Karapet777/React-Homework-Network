@@ -23,7 +23,7 @@ const Input = ({
 };
 Input.propTypes = {
   type: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChenge: PropTypes.func.isRequired,
   className: PropTypes.string,
   loading: PropTypes.bool,

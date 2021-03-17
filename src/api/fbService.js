@@ -15,9 +15,7 @@ class FbService {
     firebase.database().ref("posts").set(dataMockup);
   };
 
-  sendTodoToFirabase = () => {
-    firebase.database().ref("todo").set(dataTodo);
-  };
+  // Posts Recuest
 
   getAllPosts = async () => {
     const res = await firebase.database().ref("posts").get();
@@ -105,6 +103,57 @@ class FbService {
   };
   logout = async () => {
     firebase.auth().signOut();
+  };
+
+  // Todo Recuest
+
+  sendTodoToFirabase = () => {
+    firebase.database().ref("todo").set(dataTodo);
+  };
+
+  getAllTodos = async () => {
+    const res = await firebase.database().ref("todo").get();
+    const data = res.toJSON();
+    return Object.values(data);
+  };
+
+  getTodos = async (startAt = 0, endAt = 5) => {
+    const res = await firebase
+      .database()
+      .ref("todo")
+      .orderByKey()
+      .startAt(startAt.toString())
+      .endAt(endAt.toString())
+      .get();
+    const data = res.toJSON();
+    return Object.values(data);
+  };
+  moreTodo = async (startAt = 0, endAt = 5) => {
+    const res = await firebase
+      .database()
+      .ref("todo")
+      .orderByKey()
+      .startAt(startAt.toString())
+      .endAt(endAt.toString())
+      .get();
+    const data = res.toJSON();
+    return Object.values(data);
+  };
+  createTodo = async (postData) => {
+    const res = await firebase
+      .database()
+      .ref("todo")
+      .orderByKey()
+      .limitToLast(1)
+      .get();
+    const itemjson = res.toJSON();
+    const item = Object.values(itemjson)[0];
+    const { id } = item;
+    await firebase
+      .database()
+      .ref(`todo/${id + 1}`)
+      .set({ ...postData, id: id + 1 });
+    return { ...postData, id: id + 1 };
   };
 }
 

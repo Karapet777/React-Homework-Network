@@ -1,0 +1,38 @@
+@import "~style/root";
+.todoList-container {
+  width: 500px;
+  min-height: 100px;
+  background-color: $postsColor;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+  border-radius: 13px;
+  overflow: hidden;
+  position: relative;
+  transition: 0.5s;
+  &:hover &__remov-icon {
+    right: 10px;
+    transition: 0.5s;
+  }
+  &__title {
+    width: 60%;
+    font-size: 19px;
+    color: #28527a;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  &__remov-icon {
+    position: absolute;
+    right: -20px;
+    transition: 0.5s;
+    color: $primaryColor;
+    cursor: pointer;
+    &:hover {
+      transition: 0.2s;
+      transform: rotate(360deg) scale(1.5);
+      color: coral;
+    }
+  }
+}
