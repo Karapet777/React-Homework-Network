@@ -22,6 +22,7 @@ const Header = () => {
       setActiveHeader(false);
     }
   };
+
   window.addEventListener("scroll", headerHeandler);
 
   const headerLinks = [
@@ -30,11 +31,12 @@ const Header = () => {
   ];
 
   const removeUser = async () => {
-    await fbService.logout();
+    await fbService.UserService.logout();
     localStorage.removeItem("user");
     context.dispatch({ type: actionTypes.REMOVE_USER });
     history.push("./auth");
   };
+
   return (
     <div className="app-header-container">
       <div className={"app-header-container__block"}>

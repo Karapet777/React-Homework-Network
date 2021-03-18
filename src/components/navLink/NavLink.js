@@ -18,6 +18,7 @@ const NavLink = ({ children, to, className }) => {
     </div>
   );
 };
+
 NavLink.propTypes = {
   to: PropTypes.string.isRequired,
   className: PropTypes.string,

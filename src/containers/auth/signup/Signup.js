@@ -14,20 +14,18 @@ const Signup = () => {
   const histrory = useHistory();
   const context = useContext(AppContext);
 
+  const [passwordType, setpasswordType] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
     name: "",
   });
-  const [passwordType, setpasswordType] = useState(false);
-
   const [error, setError] = useState({
     errorEmail: "",
     errorPassword: "",
     profileMatch: false,
   });
-
-  const [loading, setLoading] = useState(false);
 
   const changeHandler = (name, value) => {
     setError({
@@ -56,8 +54,7 @@ const Signup = () => {
     } else {
       try {
         setLoading(true);
-        const user = await fbService.signup(credentials);
-        console.log(user);
+        const user = await fbService.UserService.signup(credentials);
         context.dispatch({ type: actionTypes.SET_USER, payload: { user } });
         setCredentials({
           email: "",
@@ -106,12 +103,10 @@ const Signup = () => {
         loading={loading}
       />
       <p className="app-signup-container__errorText">{error.errorPassword}</p>
-
       <p className="app-signup-container__errorText">
         {error.profileMatch &&
           "The email address is already in use by another account."}
       </p>
-
       <span className="app-signup-container__checkbox">
         <input type="checkbox" onChange={chengeTypePassword} />
         &nbsp; <span>show password</span>

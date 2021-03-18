@@ -16,13 +16,13 @@ import "containers/product/ProductList.scss";
 const initialState = {
   loading: false,
   start: 0,
-  hasMore: true,
   showSetting: false,
   isOpenModal: false,
   createTitle: "",
   createBody: "",
 };
 const limit = 5;
+
 class ProductList extends Component {
   state = {
     ...initialState,
@@ -32,7 +32,7 @@ class ProductList extends Component {
 
   componentDidMount() {
     if (!this.context.state.Posts) {
-      fbService.getPosts(this.state.start, limit).then((data) => {
+      fbService.PostsService.getPosts(this.state.start, limit).then((data) => {
         this.context.dispatch({
           type: actionTypes.SET_POSTS,
           payload: { Posts: data },
@@ -51,26 +51,33 @@ class ProductList extends Component {
     this.setState({
       loading: true,
     });
-    fbService.getAllPosts().then((data) => {
+    fbService.PostsService.getAllPosts().then((data) => {
       this.context.dispatch({
         type: actionTypes.GET_ALL_POSTS,
         payload: { posts: data },
       });
+      this.context.dispatch({
+        type: actionTypes.HES_MORE,
+        payload: { hesMore: false },
+      });
       this.setState({
         loading: false,
-        hasMore: false,
       });
     });
   };
 
-  deletePost = (id) => {
-    fbService
-      .deletePost(id)
-      .then((data) => {
-        this.setState({
-          Posts: this.state.Posts.filter((el) => {
-            return el.id !== id;
-          }),
+  deleteTodo = (id) => {
+    const { start } = this.state;
+    fbService.PostsService.deletePost(id)
+      .then(() => {
+        fbService.PostsService.getPosts(
+          0,
+          start !== 0 ? start + limit : limit
+        ).then((res) => {
+          this.context.dispatch({
+            type: actionTypes.SET_POSTS,
+            payload: { Posts: res },
+          });
         });
       })
       .catch((err) => {
@@ -84,15 +91,18 @@ class ProductList extends Component {
       loading: true,
       start: newStart,
     });
-    fbService.getPosts(newStart, newStart + limit).then((data) => {
+    fbService.PostsService.getPosts(newStart, newStart + limit).then((data) => {
       this.context.dispatch({
         type: actionTypes.GET_MORE_POSTS,
         payload: { Posts: data },
       });
-      this.setState({
-        loading: false,
-        hasMore: data.length < limit ? false : true,
+      this.context.dispatch({
+        type: actionTypes.HES_MORE,
+        payload: { hesMore: data.length < limit ? false : true },
       });
+    });
+    this.setState({
+      loading: false,
     });
   };
 
@@ -104,18 +114,16 @@ class ProductList extends Component {
 
   createPost = () => {
     this.newPost();
-    fbService
-      .createPost({
-        title: this.state.createTitle,
-        body: this.state.createBody,
-        userId: 1,
-      })
-      .then((data) => {
-        this.context.dispatch({
-          type: actionTypes.CREATE_POSTS,
-          payload: { post: data },
-        });
+    fbService.PostsService.createPost({
+      title: this.state.createTitle,
+      body: this.state.createBody,
+      userId: 1,
+    }).then((data) => {
+      this.context.dispatch({
+        type: actionTypes.CREATE_POSTS,
+        payload: { post: data },
       });
+    });
   };
 
   newPost = () => {
@@ -135,7 +143,6 @@ class ProductList extends Component {
   render() {
     const {
       loading,
-      hasMore,
       showSetting,
       isOpenModal,
       createTitle,
@@ -143,7 +150,7 @@ class ProductList extends Component {
     } = this.state;
 
     const {
-      state: { Posts },
+      state: { Posts, hesMore, user },
     } = this.context;
 
     if (!Posts || loading) {
@@ -153,7 +160,6 @@ class ProductList extends Component {
         </div>
       );
     }
-
     return (
       <div className="app-product-container">
         <Modal
@@ -180,8 +186,7 @@ class ProductList extends Component {
             <SaveIcon onClick={this.createPost} />
           </div>
         </Modal>
-        ;
-        {this.context.state.user && (
+        {user && (
           <div className="app-product-container__btn-block">
             <SettingsIcon
               onClick={this.toggleSetting}
@@ -210,23 +215,23 @@ class ProductList extends Component {
                 <Post
                   key={el.id}
                   post={el}
-                  remove={() => this.deletePost(el.id)}
+                  remove={() => this.deleteTodo(el.id)}
                   isLink
                 />
               ))
             ) : (
               <div>No results</div>
             )}
-            {hasMore && (
-              <Button
-                onClick={this.getMore}
-                className="app-product-container__block-product__get-more"
-                title={loading ? "...loading " : "Get More"}
-                disabled={loading ? true : false}
-              />
-            )}
           </div>
         }
+        {hesMore && (
+          <Button
+            onClick={this.getMore}
+            className="app-product-container__block-product__get-more"
+            title={loading ? "...loading " : "Get More"}
+            disabled={loading ? true : false}
+          />
+        )}
       </div>
     );
   }

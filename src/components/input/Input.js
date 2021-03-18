@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import "components/input/Input.scss";
+
 const Input = ({
   value,
   onChenge,
@@ -21,6 +22,7 @@ const Input = ({
     />
   );
 };
+
 Input.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
@@ -29,4 +31,5 @@ Input.propTypes = {
   loading: PropTypes.bool,
   placeholder: PropTypes.string,
 };
+
 export default Input;

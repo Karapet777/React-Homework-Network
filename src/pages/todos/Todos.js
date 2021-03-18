@@ -1,44 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import SaveIcon from "@material-ui/icons/Save";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import fbService from "api/fbService";
+import { AppContext } from "context/AppContext";
 import Button from "components/button/Button";
 import Loader from "components/loader/Loader";
 import TodoList from "components/todoList/TodoList";
-import acttionTypesTodo from "redux/acttionTypesTodo";
 import Input from "components/input/Input";
+import {
+  getAllTodos,
+  setTodo,
+  getMoreTodos,
+  create,
+  hesMoreHeandler,
+} from "actions/todoActions";
 
 import "./Todos.scss";
 
 const Todos = (props) => {
   const [start, setStart] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [showSetting, setShowSetting] = useState(false);
   const [valueTodo, setValueTodo] = useState("");
   const [isLoade, setIsLoade] = useState(false);
   const limit = 5;
 
+  const context = useContext(AppContext);
+
   useEffect(() => {
     if (!props.todo) {
-      fbService.getTodos(start, limit).then((data) => {
+      fbService.TodoService.getTodos(start, limit).then((data) => {
         props.setTodo(data);
       });
     }
   });
 
   const getAllTodo = () => {
-    fbService.getAllTodos().then((data) => {
+    fbService.TodoService.getAllTodos().then((data) => {
       return props.getAllTodos(data);
     });
+    props.hesMoreHeandler(false);
+  };
+
+  const deletePost = (id) => {
+    fbService.TodoService.deletePost(id)
+      .then(() => {
+        fbService.TodoService.getTodos(
+          0,
+          start !== 0 ? start + limit : limit
+        ).then((res) => {
+          props.setTodo(res);
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const getMore = () => {
     const newStart = start + limit + 1;
     setStart(newStart);
-    console.log(newStart);
-    fbService.moreTodo(newStart, newStart + limit).then((data) => {
+    fbService.TodoService.moreTodo(newStart, newStart + limit).then((data) => {
       props.getMoreTodos(data);
-      setHasMore(data.length < limit ? false : true);
+      props.hesMoreHeandler(data.length < limit ? false : true);
     });
     setIsLoade(false);
   };
@@ -55,35 +80,43 @@ const Todos = (props) => {
   };
 
   const createTodoHandler = () => {
-    fbService
-      .createTodo({
-        title: valueTodo,
-        completed: false,
-        userId: 1,
-      })
-      .then((data) => {
-        props.create(data);
-      });
+    fbService.TodoService.createTodo({
+      title: valueTodo,
+      completed: false,
+      userId: 1,
+    }).then((data) => {
+      props.create(data);
+    });
     initialValueTodo();
   };
 
-  console.log(props.todo);
+  const toggleSettings = () => {
+    setShowSetting(!showSetting);
+  };
+
   return (
     <>
       {!props.todo ? (
         <Loader className="loader" />
       ) : (
         <div className="app-todo-container">
-          <div>
-            <Button onClick={getAllTodo} title="get all todos" />
+          <div className="app-todo-container__block-setting">
+            <SettingsIcon
+              className="app-todo-container__block-setting__icon-setting"
+              onClick={toggleSettings}
+            />
+            {showSetting && (
+              <Button onClick={getAllTodo} title="get all todos" />
+            )}
           </div>
-
-          <Input
-            value={valueTodo}
-            onChenge={chengValueHandler}
-            placeholder="Create Todo"
-          />
-          {valueTodo && (
+          {context.state.user && (
+            <Input
+              value={valueTodo}
+              onChenge={chengValueHandler}
+              placeholder="Create Todo"
+            />
+          )}
+          {context.state.user && valueTodo ? (
             <div className="app-todo-container__createTodo-block">
               <div className="app-todo-container__createTodo-block__textNewTodo">
                 {valueTodo}
@@ -99,17 +132,24 @@ const Todos = (props) => {
                 </span>
               </div>
             </div>
-          )}
+          ) : null}
           <div className="app-todo-container__block-todos">
             {props.todo.map((el) => {
-              return <TodoList key={el.id} title={el.title} />;
+              return (
+                <TodoList
+                  key={el.id}
+                  title={el.title}
+                  onClick={() => deletePost(el.id)}
+                  isUser={context.state.user ? true : false}
+                />
+              );
             })}
           </div>
           <div>
-            {hasMore && (
+            {props.hesMore && (
               <Button
                 onClick={getMore}
-                title={isLoade ? "...loadind" : "get More"}
+                title={isLoade ? "...loading" : "get More"}
               />
             )}
           </div>
@@ -122,26 +162,16 @@ const Todos = (props) => {
 const mapStateToProps = (state) => {
   return {
     todo: state.todo,
+    hesMore: state.hesMore,
   };
 };
 
 const mapDispatchToProps = {
-  getAllTodos: (data) => ({
-    type: acttionTypesTodo.GET_ALL_TODOS,
-    payload: { todo: data },
-  }),
-  setTodo: (data) => ({
-    type: acttionTypesTodo.SET_TODOS,
-    payload: { todo: data },
-  }),
-  getMoreTodos: (data) => ({
-    type: acttionTypesTodo.GET_MORE_TODOS,
-    payload: { todo: data },
-  }),
-  create: (data) => ({
-    type: acttionTypesTodo.CREATE_TODOS,
-    payload: { todo: data },
-  }),
+  getAllTodos,
+  setTodo,
+  getMoreTodos,
+  create,
+  hesMoreHeandler,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

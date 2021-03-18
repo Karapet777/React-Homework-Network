@@ -23,6 +23,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         todo: [...state.todo, action.payload.todo],
       };
+    case acttionTypesTodo.HES_MORE:
+      return {
+        ...state,
+        hesMore: action.payload.hesMore,
+      };
     default:
       return state;
   }

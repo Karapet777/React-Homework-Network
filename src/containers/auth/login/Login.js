@@ -11,14 +11,14 @@ import "containers/auth/login/Login.scss";
 const Login = () => {
   const context = useContext(AppContext);
   const history = useHistory();
+  const [errorLogin, setErrorLogin] = useState(false);
+  const [passwordType, setPasswordType] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
-  const [errorLogin, setErrorLogin] = useState(false);
-  const [passwordType, setPasswordType] = useState(false);
 
-  const changeHandler = (name, value) => {
+  const chengeHandler = (name, value) => {
     setErrorLogin(false);
     setCredentials({
       ...credentials,
@@ -32,8 +32,7 @@ const Login = () => {
 
   const handlerLogin = async () => {
     try {
-      const user = await fbService.login(credentials);
-      console.log(user);
+      const user = await fbService.UserService.login(credentials);
       context.dispatch({ type: "SET_USER", payload: { user } });
       localStorage.setItem("user", JSON.stringify(user));
       setCredentials({
@@ -52,13 +51,13 @@ const Login = () => {
       <Input
         className={errorLogin ? "app-login-container--error" : null}
         value={credentials.email}
-        onChenge={(e) => changeHandler("email", e.target.value)}
+        onChenge={(e) => chengeHandler("email", e.target.value)}
         placeholder="Email"
       />
       <Input
         className={errorLogin ? "app-login-container--error" : null}
         value={credentials.password}
-        onChenge={(e) => changeHandler("password", e.target.value)}
+        onChenge={(e) => chengeHandler("password", e.target.value)}
         placeholder="Password"
         type={passwordType ? "text" : "password"}
       />

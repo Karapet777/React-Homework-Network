@@ -42,6 +42,11 @@ const appReducer = (state, action) => {
         ...state,
         Posts: action.payload.posts,
       };
+    case actionTypes.HES_MORE:
+      return {
+        ...state,
+        hesMore: action.payload.hesMore,
+      };
     default:
       return state;
   }

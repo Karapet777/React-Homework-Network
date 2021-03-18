@@ -8,6 +8,28 @@
   justify-content: space-between;
   align-items: center;
   background-color: $secondaryColor;
+  &__block-setting {
+    padding: 10px;
+    width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    &__icon-setting {
+      cursor: pointer;
+      color: $primaryColor;
+      transition: 0.9s;
+      & :hover {
+        transition: 0.9s;
+        transform: scaleX(18);
+      }
+    }
+    & button {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  }
   &__createTodo-block {
     position: relative;
     overflow: hidden;
@@ -46,7 +68,6 @@
     border-radius: 5px;
     border: none;
   }
-
   &__block-todos {
     grid-template-columns: auto auto;
     display: grid;

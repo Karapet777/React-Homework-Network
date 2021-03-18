@@ -10,6 +10,7 @@ import "./Post.scss";
 
 const Post = ({ post, remove = () => {}, isLink = false, edit = () => {} }) => {
   const context = useContext(AppContext);
+
   const Wrapper = ({ children }) => {
     return isLink ? (
       <>
