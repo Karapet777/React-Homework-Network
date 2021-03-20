@@ -71,5 +71,12 @@ class TodoService {
       .set({ ...postData, id: id + 1 });
     return { ...postData, id: id + 1 };
   };
+
+  readPost = async (id, completed) => {
+    const postRef = firebase.database().ref(`todo/${id}`);
+    await postRef.update(completed);
+    const res = await postRef.get();
+    return res.val();
+  };
 }
 export default new TodoService();

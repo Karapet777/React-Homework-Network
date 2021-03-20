@@ -1,7 +1,11 @@
-import initialState from "redux/todoState";
-import acttionTypesTodo from "redux/acttionTypesTodo";
+import acttionTypesTodo from "redux/actionTypesTodo";
 
-const reducer = (state = initialState, action) => {
+const initialState = {
+  todo: null,
+  hesMore: true,
+};
+
+const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case acttionTypesTodo.GET_ALL_TODOS:
       return {
@@ -28,9 +32,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         hesMore: action.payload.hesMore,
       };
+    case acttionTypesTodo.UPDATE_TODO:
+      return {
+        ...state,
+        hesMore: action.payload.res,
+      };
+
     default:
       return state;
   }
 };
 
-export default reducer;
+export default todoReducer;

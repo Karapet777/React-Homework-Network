@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import AppRoutes from "routes/AppRoutes";
 import AppContextProvider from "context/AppContextProvider";
-import store from "redux/store";
+import store from "redux/index";
 
 function App() {
   return (

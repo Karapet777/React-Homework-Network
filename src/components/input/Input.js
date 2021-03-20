@@ -10,6 +10,7 @@ const Input = ({
   className = "",
   loading = false,
   placeholder = "",
+  onKeyDown,
 }) => {
   return (
     <input
@@ -19,6 +20,7 @@ const Input = ({
       type={type}
       disabled={loading}
       placeholder={placeholder}
+      onKeyDown={onKeyDown}
     />
   );
 };
@@ -30,6 +32,7 @@ Input.propTypes = {
   className: PropTypes.string,
   loading: PropTypes.bool,
   placeholder: PropTypes.string,
+  onKeyDown: PropTypes.func,
 };
 
 export default Input;

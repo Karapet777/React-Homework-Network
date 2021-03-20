@@ -74,6 +74,11 @@ const Signup = () => {
     }
   };
 
+  const keyDownHandler = (e) => {
+    if (e.keyCode === 13) {
+      handlerSignup();
+    }
+  };
   return (
     <div className="app-signup-container">
       <p className="app-signup-container__title-page">Signup</p>
@@ -83,6 +88,7 @@ const Signup = () => {
         placeholder="Name"
         onChenge={(e) => changeHandler("name", e.target.value)}
         loading={loading}
+        onKeyDown={keyDownHandler}
       />
       <Input
         className={error.errorEmail ? "app-signup-container--errorClass" : null}
@@ -90,6 +96,7 @@ const Signup = () => {
         placeholder="Email"
         onChenge={(e) => changeHandler("email", e.target.value)}
         loading={loading}
+        onKeyDown={keyDownHandler}
       />
       <p className="app-signup-container__errorText">{error.errorEmail}</p>
       <Input
@@ -101,6 +108,7 @@ const Signup = () => {
         onChenge={(e) => changeHandler("password", e.target.value)}
         type={passwordType ? "text" : "password"}
         loading={loading}
+        onKeyDown={keyDownHandler}
       />
       <p className="app-signup-container__errorText">{error.errorPassword}</p>
       <p className="app-signup-container__errorText">

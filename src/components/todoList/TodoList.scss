@@ -15,6 +15,28 @@
     right: 10px;
     transition: 0.5s;
   }
+  &__checkbox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &__btn {
+      background-color: transparent;
+      border: none;
+      text-align: left;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin: 3px;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+      border-left: 1px solid transparent;
+
+      &:hover {
+        border-left: 1px solid #000;
+      }
+    }
+  }
   &__title {
     width: 60%;
     font-size: 19px;
@@ -35,4 +57,7 @@
       color: coral;
     }
   }
+}
+.done {
+  background-color: rgb(67, 197, 49);
 }

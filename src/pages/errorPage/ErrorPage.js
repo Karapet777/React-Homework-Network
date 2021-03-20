@@ -6,8 +6,8 @@ const ErrorPage = () => {
   return (
     <div className="error-container">
       <div className="error-container__block">
-        <p className="error-container__block__status">404</p>
-        <p className="error-container__block__errText">Page Not Founde Error</p>
+        <p className="error-container__block__status">Error 404</p>
+        <p className="error-container__block__errText">Page Not Founde</p>
       </div>
     </div>
   );

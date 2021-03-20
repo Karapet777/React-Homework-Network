@@ -46,16 +46,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    &__setting {
-      color: $primaryColor;
-      margin: 0 10px;
-      transition: 0.5s;
-      cursor: pointer;
-      &:hover {
-        transform: rotate(180deg);
-        transition: 0.5s;
-      }
-    }
     &__btns {
       margin-left: 10px;
       border-radius: 7px;

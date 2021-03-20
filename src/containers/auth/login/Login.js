@@ -44,7 +44,11 @@ const Login = () => {
       setErrorLogin(true);
     }
   };
-
+  const keydownHandler = (e) => {
+    if (e.keyCode === 13) {
+      handlerLogin();
+    }
+  };
   return (
     <div className="app-login-container">
       <p className="app-login-container__title-page">Login</p>
@@ -53,12 +57,14 @@ const Login = () => {
         value={credentials.email}
         onChenge={(e) => chengeHandler("email", e.target.value)}
         placeholder="Email"
+        onKeyDown={keydownHandler}
       />
       <Input
         className={errorLogin ? "app-login-container--error" : null}
         value={credentials.password}
         onChenge={(e) => chengeHandler("password", e.target.value)}
         placeholder="Password"
+        onKeyDown={keydownHandler}
         type={passwordType ? "text" : "password"}
       />
       <p className="app-login-container--errorText">

@@ -1,4 +1,4 @@
-import acttionTypesTodo from "redux/acttionTypesTodo";
+import acttionTypesTodo from "redux/actionTypesTodo";
 
 export const getAllTodos = (data) => ({
   type: acttionTypesTodo.GET_ALL_TODOS,
@@ -23,4 +23,9 @@ export const create = (data) => ({
 export const hesMoreHeandler = (hesMore) => ({
   type: acttionTypesTodo.HES_MORE,
   payload: { hesMore },
+});
+
+export const updateTodo = (res) => ({
+  type: acttionTypesTodo.HES_MORE,
+  payload: { todo: res },
 });

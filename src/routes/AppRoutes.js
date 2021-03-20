@@ -18,10 +18,10 @@ const AppRoutes = () => {
       <Layout>
         <Switch>
           <Route exact path="/product" component={ProductList} />
-          <Route path="/posts/:productId" component={ProductInfo} />
-          <Route path="/todos" component={Todos} />
-          <Route path="/auth" component={Auth} />
-          <Route path="/profile" component={Profile} />
+          <Route exact path="/posts/:productId" component={ProductInfo} />
+          <Route exact path="/todos" component={Todos} />
+          <Route exact path="/auth" component={Auth} />
+          <Route exact path="/profile" component={Profile} />
           <Route exact path="/" component={Home} />
           <Route exact path="*">
             <ErrorPage />

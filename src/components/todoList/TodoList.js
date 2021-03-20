@@ -2,21 +2,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import Input from "components/input/Input";
-
 import "./TodoList.scss";
+import Button from "components/button/Button";
 
 const TodoList = ({
   title,
   onClick = () => {},
-  onChenge = () => {},
+  onClickDone = () => {},
+  onClickNotDone = () => {},
   isUser = false,
+  className,
 }) => {
   const wrapper = () => {
     if (isUser) {
       return (
-        <div className="todoList-container">
-          <Input type="checkbox" onChenge={onChenge} />
+        <div className={`todoList-container ${className}`}>
+          <div className="todoList-container__checkbox">
+            <Button
+              onClick={onClickDone}
+              title="done"
+              className="todoList-container__checkbox__btn"
+            />
+            <Button
+              onClick={onClickNotDone}
+              title="not done"
+              className="todoList-container__checkbox__btn"
+            />
+          </div>
           <p className="todoList-container__title">{title}</p>
           <DeleteIcon
             className="todoList-container__remov-icon"
