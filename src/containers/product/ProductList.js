@@ -37,6 +37,7 @@ const ProductList = (props) => {
     if (!props.Posts) {
       props.setPosts(start, limit);
     }
+    //eslint-disable-next-line
   }, []);
 
   const getAllPosts = () => {
@@ -58,13 +59,14 @@ const ProductList = (props) => {
         fbService.PostsService.getPosts(
           0,
           start !== 0 ? start + limit : limit
-        ).then((res) => {
-          props.setPosts(res);
+        ).then(() => {
+          props.setPosts();
         });
       })
       .catch((err) => {
         console.error(err);
       });
+    console.log(props.Posts);
   };
 
   const getMore = () => {

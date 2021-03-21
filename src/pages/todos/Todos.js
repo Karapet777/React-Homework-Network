@@ -34,6 +34,7 @@ const Todos = (props) => {
         props.setTodo(data);
       });
     }
+    //eslint-disable-next-line
   }, []);
 
   const getAllTodo = () => {
@@ -56,7 +57,6 @@ const Todos = (props) => {
       .catch((err) => {
         console.error(err);
       });
-    props.hesMoreHeandler(props.todo.length > 0 ? true : false);
   };
 
   const getMore = () => {
@@ -68,6 +68,7 @@ const Todos = (props) => {
       props.hesMoreHeandler(data.length < limit ? false : true);
     });
     setIsLoade(false);
+    console.log(props.todo);
   };
 
   const chengValueHandler = (e) => {
@@ -93,6 +94,7 @@ const Todos = (props) => {
       props.setTodo(res);
     });
     initialValueTodo();
+    props.hesMoreHeandler(false);
   };
 
   const toggleSettings = () => {
@@ -100,8 +102,7 @@ const Todos = (props) => {
   };
 
   const doneHandler = (id) => {
-    fbService.TodoService.readPost(id, { completed: true })
-    .then((res) => {
+    fbService.TodoService.readPost(id, { completed: true }).then((res) => {
       fbService.TodoService.getAllTodos().then((res) => {
         props.getAllTodos(res);
       });
@@ -109,8 +110,7 @@ const Todos = (props) => {
   };
 
   const notDoneHandler = (id) => {
-    fbService.TodoService.readPost(id, { completed: false })
-    .then((res) => {
+    fbService.TodoService.readPost(id, { completed: false }).then((res) => {
       fbService.TodoService.getAllTodos().then((res) => {
         props.getAllTodos(res);
       });
