@@ -101,26 +101,20 @@ const Todos = (props) => {
 
   const doneHandler = (id) => {
     fbService.TodoService.readPost(id, { completed: true })
-      .then((res) => {
-        props.create(res);
-      })
-      .then((res) => {
-        fbService.TodoService.getAllTodos(res).then((res) => {
-          props.setTodo(res);
-        });
+    .then((res) => {
+      fbService.TodoService.getAllTodos().then((res) => {
+        props.getAllTodos(res);
       });
+    });
   };
 
   const notDoneHandler = (id) => {
     fbService.TodoService.readPost(id, { completed: false })
-      .then((res) => {
-        props.create(res);
-      })
-      .then((res) => {
-        fbService.TodoService.getAllTodos(res).then((res) => {
-          props.setTodo(res);
-        });
+    .then((res) => {
+      fbService.TodoService.getAllTodos().then((res) => {
+        props.getAllTodos(res);
       });
+    });
   };
 
   const keyEnterHandler = (e) => {
