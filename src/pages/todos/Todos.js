@@ -15,7 +15,6 @@ import {
   getMoreTodos,
   create,
   hesMoreHeandler,
-  updateTodo,
 } from "actions/todoActions";
 
 import "./Todos.scss";
@@ -33,7 +32,6 @@ const Todos = (props) => {
     if (!props.todo) {
       fbService.TodoService.getTodos(start, limit).then((data) => {
         props.setTodo(data);
-        console.log(data);
       });
     }
   }, []);
@@ -91,6 +89,9 @@ const Todos = (props) => {
     }).then((data) => {
       props.create(data);
     });
+    fbService.TodoService.getAllTodos().then((res) => {
+      props.setTodo(res);
+    });
     initialValueTodo();
   };
 
@@ -101,7 +102,7 @@ const Todos = (props) => {
   const doneHandler = (id) => {
     fbService.TodoService.readPost(id, { completed: true })
       .then((res) => {
-        props.updateTodo(res);
+        props.create(res);
       })
       .then((res) => {
         fbService.TodoService.getAllTodos(res).then((res) => {
@@ -113,7 +114,7 @@ const Todos = (props) => {
   const notDoneHandler = (id) => {
     fbService.TodoService.readPost(id, { completed: false })
       .then((res) => {
-        props.updateTodo(res);
+        props.create(res);
       })
       .then((res) => {
         fbService.TodoService.getAllTodos(res).then((res) => {
@@ -122,9 +123,14 @@ const Todos = (props) => {
       });
   };
 
+  const keyEnterHandler = (e) => {
+    if (e.keyCode === 13) {
+      createTodoHandler();
+    }
+  };
+
   return (
     <>
-      {console.log(props.todo)}
       {!props.todo || isLoade ? (
         <Loader className="loader" />
       ) : (
@@ -144,6 +150,7 @@ const Todos = (props) => {
               value={valueTodo}
               onChenge={chengValueHandler}
               placeholder="Create Todo"
+              onKeyDown={keyEnterHandler}
             />
           )}
           {context.state.user && valueTodo ? (
@@ -206,7 +213,6 @@ const mapDispatchToProps = {
   getMoreTodos,
   create,
   hesMoreHeandler,
-  updateTodo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

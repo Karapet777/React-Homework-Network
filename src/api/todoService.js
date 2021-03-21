@@ -55,6 +55,7 @@ class TodoService {
     const data = res.toJSON();
     return Object.values(data);
   };
+
   createTodo = async (postData) => {
     const res = await firebase
       .database()

@@ -16,7 +16,6 @@ import {
   getMorePosts,
   createPost,
   postsLength,
-  updatePost,
 } from "actions/postActions";
 
 import "containers/product/ProductList.scss";
@@ -36,10 +35,7 @@ const ProductList = (props) => {
 
   useEffect(() => {
     if (!props.Posts) {
-      fbService.PostsService.getPosts(start, limit).then((data) => {
-        props.setPosts(data);
-        console.log(data);
-      });
+      props.setPosts(start, limit);
     }
   }, []);
 
@@ -48,15 +44,12 @@ const ProductList = (props) => {
       ...state,
       loading: true,
     });
-    fbService.PostsService.getAllPosts().then((data) => {
-      props.AllPosts(data);
-    });
+    props.AllPosts();
     props.postsLength(false);
     setState({
       ...state,
       loading: false,
     });
-    console.log(props.hesMorePost);
   };
 
   const deleteTodo = (id) => {
@@ -81,7 +74,6 @@ const ProductList = (props) => {
       ...state,
       loading: true,
     });
-    console.log(start);
     fbService.PostsService.getPosts(newStart, newStart + limit).then((data) => {
       props.getMorePosts(data);
       props.postsLength(data.length < limit ? false : true);
@@ -90,7 +82,6 @@ const ProductList = (props) => {
       ...state,
       loading: false,
     });
-    console.log(props.hesMorePost);
   };
 
   const chengeValue = (name, value) => {
@@ -102,13 +93,7 @@ const ProductList = (props) => {
 
   const createPost = () => {
     newPost();
-    fbService.PostsService.createPost({
-      title: state.createTitle,
-      body: state.createBody,
-      userId: 1,
-    }).then((data) => {
-      props.createPost(data);
-    });
+    props.createPost(state.createTitle, state.createBody);
   };
 
   const newPost = () => {
@@ -139,6 +124,11 @@ const ProductList = (props) => {
       </div>
     );
   }
+  const keyEnterHandlerEvent = (e) => {
+    if (e.keyCode === 13) {
+      createPost();
+    }
+  };
   return (
     <div className="app-product-container">
       <Modal
@@ -153,12 +143,14 @@ const ProductList = (props) => {
             value={createTitle}
             placeholder="Title"
             onChenge={(e) => chengeValue("createTitle", e.target.value)}
+            onKeyDown={keyEnterHandlerEvent}
           />
           <Input
             className="app-product-container__modal__block__input"
             value={createBody}
             placeholder="body"
             onChenge={(e) => chengeValue("createBody", e.target.value)}
+            onKeyDown={keyEnterHandlerEvent}
           />
           <SaveIcon onClick={createPost} />
         </div>
@@ -223,7 +215,6 @@ const mapDispatchToProps = {
   getMorePosts,
   createPost,
   postsLength,
-  updatePost,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
