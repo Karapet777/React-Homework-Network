@@ -81,50 +81,56 @@ const Signup = () => {
   };
   return (
     <div className="app-signup-container">
-      <p className="app-signup-container__title-page">Signup</p>
-      <Input
-        className={error.errorName ? "app-signup-container--errorClass" : null}
-        value={credentials.name}
-        placeholder="Name"
-        onChenge={(e) => changeHandler("name", e.target.value)}
-        loading={loading}
-        onKeyDown={keyDownHandler}
-      />
-      <Input
-        className={error.errorEmail ? "app-signup-container--errorClass" : null}
-        value={credentials.email}
-        placeholder="Email"
-        onChenge={(e) => changeHandler("email", e.target.value)}
-        loading={loading}
-        onKeyDown={keyDownHandler}
-      />
-      <p className="app-signup-container__errorText">{error.errorEmail}</p>
-      <Input
-        className={
-          error.errorPassword ? "app-signup-container--errorClass" : null
-        }
-        value={credentials.password}
-        placeholder="Password"
-        onChenge={(e) => changeHandler("password", e.target.value)}
-        type={passwordType ? "text" : "password"}
-        loading={loading}
-        onKeyDown={keyDownHandler}
-      />
-      <p className="app-signup-container__errorText">{error.errorPassword}</p>
-      <p className="app-signup-container__errorText">
-        {error.profileMatch &&
-          "The email address is already in use by another account."}
-      </p>
-      <span className="app-signup-container__checkbox">
-        <input type="checkbox" onChange={chengeTypePassword} />
-        &nbsp; <span>show password</span>
-      </span>
-      <Button
-        className="app-signup-container__btn"
-        title={loading ? "loading..." : "Signup"}
-        onClick={handlerSignup}
-        disabled={loading}
-      />
+      <div className="app-signup-container__block">
+        <p className="app-signup-container__title-page">Signup</p>
+        <Input
+          className={
+            error.errorName ? "app-signup-container--errorClass" : null
+          }
+          value={credentials.name}
+          placeholder="Name"
+          onChenge={(e) => changeHandler("name", e.target.value)}
+          loading={loading}
+          onKeyDown={keyDownHandler}
+        />
+        <Input
+          className={
+            error.errorEmail ? "app-signup-container--errorClass" : null
+          }
+          value={credentials.email}
+          placeholder="Email"
+          onChenge={(e) => changeHandler("email", e.target.value)}
+          loading={loading}
+          onKeyDown={keyDownHandler}
+        />
+        <p className="app-signup-container__errorText">{error.errorEmail}</p>
+        <Input
+          className={
+            error.errorPassword ? "app-signup-container--errorClass" : null
+          }
+          value={credentials.password}
+          placeholder="Password"
+          onChenge={(e) => changeHandler("password", e.target.value)}
+          type={passwordType ? "text" : "password"}
+          loading={loading}
+          onKeyDown={keyDownHandler}
+        />
+        <p className="app-signup-container__errorText">{error.errorPassword}</p>
+        <p className="app-signup-container__errorText">
+          {error.profileMatch &&
+            "The email address is already in use by another account."}
+        </p>
+        <span className="app-signup-container__checkbox">
+          <input type="checkbox" onChange={chengeTypePassword} />
+          &nbsp; <span>show password</span>
+        </span>
+        <Button
+          className="app-signup-container__btn"
+          title={loading ? "loading..." : "Signup"}
+          onClick={handlerSignup}
+          disabled={loading}
+        />
+      </div>
     </div>
   );
 };

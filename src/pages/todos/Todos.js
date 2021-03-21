@@ -38,9 +38,7 @@ const Todos = (props) => {
   }, []);
 
   const getAllTodo = () => {
-    fbService.TodoService.getAllTodos().then((data) => {
-      props.getAllTodos(data);
-    });
+    props.getAllTodos();
     props.hesMoreHeandler(false);
   };
 
@@ -63,10 +61,7 @@ const Todos = (props) => {
     const newStart = start + limit + 1;
     setStart(newStart);
     setIsLoade(true);
-    fbService.TodoService.moreTodo(newStart, newStart + limit).then((data) => {
-      props.getMoreTodos(data);
-      props.hesMoreHeandler(data.length < limit ? false : true);
-    });
+    props.getMoreTodos(newStart, limit);
     setIsLoade(false);
     console.log(props.todo);
   };
@@ -129,16 +124,18 @@ const Todos = (props) => {
         <Loader className="loader" />
       ) : (
         <div className="app-todo-container">
-          <div className="app-todo-container__block-setting">
-            <SettingsIcon onClick={toggleSettings} />
-            {showSetting && (
-              <Button
-                className="app-todo-container__btns"
-                onClick={getAllTodo}
-                title="get all todos"
-              />
-            )}
-          </div>
+          {context.state.user && (
+            <div className="app-todo-container__block-setting">
+              <SettingsIcon onClick={toggleSettings} />
+              {showSetting && (
+                <Button
+                  className="app-todo-container__btns"
+                  onClick={getAllTodo}
+                  title="get all todos"
+                />
+              )}
+            </div>
+          )}
           {context.state.user && (
             <Input
               value={valueTodo}

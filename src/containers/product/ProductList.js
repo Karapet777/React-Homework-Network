@@ -15,7 +15,7 @@ import {
   setPosts,
   getMorePosts,
   createPost,
-  postsLength,
+  isPostsHesMore,
 } from "actions/postActions";
 
 import "containers/product/ProductList.scss";
@@ -46,7 +46,7 @@ const ProductList = (props) => {
       loading: true,
     });
     props.AllPosts();
-    props.postsLength(false);
+    props.isPostsHesMore(false);
     setState({
       ...state,
       loading: false,
@@ -66,7 +66,6 @@ const ProductList = (props) => {
       .catch((err) => {
         console.error(err);
       });
-    console.log(props.Posts);
   };
 
   const getMore = () => {
@@ -76,10 +75,7 @@ const ProductList = (props) => {
       ...state,
       loading: true,
     });
-    fbService.PostsService.getPosts(newStart, newStart + limit).then((data) => {
-      props.getMorePosts(data);
-      props.postsLength(data.length < limit ? false : true);
-    });
+    props.getMorePosts(newStart, limit);
     setState({
       ...state,
       loading: false,
@@ -96,6 +92,12 @@ const ProductList = (props) => {
   const createPost = () => {
     newPost();
     props.createPost(state.createTitle, state.createBody);
+    fbService.PostsService.getPosts(
+      0,
+      start !== 0 ? start + limit : limit
+    ).then(() => {
+      props.setPosts();
+    });
   };
 
   const newPost = () => {
@@ -209,6 +211,7 @@ const mapStateToProps = (state) => {
   return {
     Posts: state.postReducer.Posts,
     hesMorePost: state.postReducer.hesMorePost,
+    start: state.postReducer.start,
   };
 };
 const mapDispatchToProps = {
@@ -216,7 +219,7 @@ const mapDispatchToProps = {
   setPosts,
   getMorePosts,
   createPost,
-  postsLength,
+  isPostsHesMore,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

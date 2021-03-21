@@ -1,6 +1,8 @@
+@import "~style/root";
+
 .app-login-container {
-  width: 300px;
-  height: 450px;
+  width: 400px;
+  height: 550px;
   border: 1px solid #04527f;
   display: flex;
   flex-direction: column;
@@ -9,6 +11,11 @@
   border-radius: 15px;
   backdrop-filter: blur(4px);
   color: white;
+  &__block {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
   &--error {
     border-bottom: 1px solid red;
   }
@@ -19,22 +26,24 @@
   &__title-page {
     font-size: 30px;
     letter-spacing: 5px;
-    margin-bottom: 20px;
+    margin: 30px auto;
   }
   &__btn {
+    width: 100px;
     border: none;
     background-color: transparent;
     color: white;
     font-size: 20px;
     padding: 5px;
     border-bottom: 1px solid #04527f;
+    margin: 20px auto;
     &:hover {
       width: 75px;
       cursor: pointer;
     }
   }
   &__checkbox {
-    margin: 20px;
+    margin: 20px 0;
     & span {
       font-size: 12px;
     }

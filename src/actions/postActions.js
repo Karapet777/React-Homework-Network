@@ -19,10 +19,18 @@ export const setPosts = (start, limit) => (dispatch) => {
   });
 };
 
-export const getMorePosts = (data) => ({
-  type: actionTypesPost.GET_MORE_POSTS,
-  payload: { Posts: data },
-});
+export const getMorePosts = (newStart, limit) => (dispatch) => {
+  fbService.PostsService.getPosts(newStart, newStart + limit).then((data) => {
+    dispatch({
+      type: actionTypesPost.GET_MORE_POSTS,
+      payload: { Posts: data },
+    });
+    dispatch({
+      type: actionTypesPost.HES_MORE_POST,
+      payload: { hesMorePost: data.length < limit ? false : true },
+    });
+  });
+};
 
 export const createPost = (createTitle, createBody) => (dispatch) => {
   fbService.PostsService.createPost({
@@ -37,7 +45,12 @@ export const createPost = (createTitle, createBody) => (dispatch) => {
   });
 };
 
-export const postsLength = (hesMorePost) => ({
+export const isPostsHesMore = (hesMorePost) => ({
   type: actionTypesPost.HES_MORE_POST,
   payload: { hesMorePost },
+});
+
+export const updatePost = (res) => ({
+  type: actionTypesPost.UPDATE_POST,
+  payload: { todo: res },
 });

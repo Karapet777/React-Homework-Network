@@ -3,6 +3,7 @@ import actionTypesPost from "redux/actionTypesPost";
 const initialState = {
   Posts: null,
   hesMorePost: true,
+  start: 0,
 };
 
 const postReducer = (state = initialState, action) => {
@@ -32,7 +33,7 @@ const postReducer = (state = initialState, action) => {
         ...state,
         hesMorePost: action.payload.hesMorePost,
       };
-    case actionTypesPost.UPDATE_POSTS:
+    case actionTypesPost.UPDATE_POST:
       return {
         ...state,
         Posts: state.Posts.map((el) => {
