@@ -7,7 +7,7 @@ import "./SettingsIcon.scss";
 const SettingIcon = ({ onClick, className }) => {
   return (
     <div>
-      <SettingsIcon onClick={onClick} className={`SettingIcon ${className}`} />
+      <SettingsIcon onClick={onClick} className={`SettingIcon  ${className}`} />
     </div>
   );
 };

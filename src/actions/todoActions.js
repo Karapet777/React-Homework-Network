@@ -20,15 +20,16 @@ export const setTodo = (start, limit) => (dispatch) => {
 };
 
 export const getMoreTodos = (newStart, limit) => (dispatch) => {
-  fbService.TodoService.moreTodo(newStart, newStart + limit).then((data) => {
+  fbService.TodoService.getTodos(newStart, newStart + limit).then((data) => {
     dispatch({
       type: acttionTypesTodo.GET_MORE_TODOS,
       payload: { todo: data },
     });
     dispatch({
       type: acttionTypesTodo.HES_MORE_TODO,
-      payload: { hesMore: data.length < limit ? false : true },
+      payload: { hesMore: data.length <= limit ? false : true },
     });
+    console.log(data.length);
   });
 };
 
@@ -39,7 +40,7 @@ export const create = (data) => ({
 
 export const hesMoreHeandler = (hesMore) => ({
   type: acttionTypesTodo.HES_MORE_TODO,
-  payload: { hesMore },
+  payload: { hesMore: hesMore },
 });
 
 export const updateTodo = (res) => ({

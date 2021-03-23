@@ -16,24 +16,42 @@
     right: 10px;
     transition: 0.5s;
   }
+  &:hover &__checkbox {
+    &__btn-done {
+      position: absolute;
+      left: -50px;
+      transition: 0.2s;
+    }
+    &__btn-notDoneIcon {
+      position: absolute;
+      left: -50px;
+      transition: 0.5s;
+    }
+  }
   &__checkbox {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    &__btn {
-      height: 35px;
-      width: 35px;
-      background-color: transparent;
-      border: none;
-      text-transform: uppercase;
-      color: black;
+    position: relative;
+    &__btn-done {
+      position: absolute;
+      left: -100px;
+      top: 20px;
+      color: #16c60c;
       cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s;
       &:hover {
         transform: scale(1.3);
-        transition: 0.2s;
+      }
+    }
+    &__btn-notDoneIcon {
+      position: absolute;
+      left: -100px;
+      top: 50px;
+      color: #f03a17;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.3);
       }
     }
   }

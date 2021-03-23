@@ -1,4 +1,7 @@
 import React, { useState, useContext } from "react";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
 
 import Button from "components/button/Button";
 import Input from "components/input/Input";
@@ -13,6 +16,7 @@ const Login = () => {
   const history = useHistory();
   const [errorLogin, setErrorLogin] = useState(false);
   const [passwordType, setPasswordType] = useState(false);
+  const [isRememberPassword, setIsRememberPassword] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -34,7 +38,9 @@ const Login = () => {
     try {
       const user = await fbService.UserService.login(credentials);
       context.dispatch({ type: "SET_USER", payload: { user } });
-      localStorage.setItem("user", JSON.stringify(user));
+      if (isRememberPassword) {
+        localStorage.setItem("user", JSON.stringify(user));
+      }
       setCredentials({
         ...credentials,
         name: user.displayName,
@@ -44,14 +50,32 @@ const Login = () => {
       setErrorLogin(true);
     }
   };
+
+  const rememberToggle = () => {
+    setIsRememberPassword(!isRememberPassword);
+  };
+
   const keydownHandler = (e) => {
     if (e.keyCode === 13) {
       handlerLogin();
     }
   };
+
   return (
     <div className="app-login-container">
       <div className="app-login-container__block">
+        {passwordType ? (
+          <VisibilityIcon
+            onClick={chengeTypePassword}
+            className="app-login-container__block__VisibilityIcon"
+          />
+        ) : (
+          <VisibilityOffIcon
+            onClick={chengeTypePassword}
+            className="app-login-container__block__VisibilityIcon"
+          />
+        )}
+        <AlternateEmailIcon className="app-login-container__block__AlternateEmailIcon" />
         <p className="app-login-container__title-page">Login</p>
         <Input
           className={errorLogin ? "app-login-container--error" : null}
@@ -71,10 +95,14 @@ const Login = () => {
         <p className="app-login-container--errorText">
           {errorLogin && "Profile does not exist"}
         </p>
-        <span className="app-login-container__checkbox">
-          <input type="checkbox" onChange={chengeTypePassword} />
-          &nbsp; <span>show password</span>
-        </span>
+        <div className="app-signup-container__block__Forgot-Password-Block">
+          <Input
+            onChenge={rememberToggle}
+            className="app-signup-container__block__Forgot-Password-Block__checkbox"
+            type="checkbox"
+          />
+          <p>Remember me</p>
+        </div>
         <Button
           className="app-login-container__btn"
           title="Login"

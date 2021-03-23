@@ -162,7 +162,7 @@ const ProductList = (props) => {
       </Modal>
       {user && (
         <div className="app-product-container__btn-block">
-          <SettingIcon onClick={toggleSetting} />
+          <SettingIcon className="setingIcon" onClick={toggleSetting} />
           {showSetting && (
             <>
               <Button
