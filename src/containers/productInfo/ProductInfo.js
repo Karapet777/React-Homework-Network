@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-
+import { connect } from "react-redux";
 import Modal from "@material-ui/core/Modal";
 import SaveIcon from "@material-ui/icons/Save";
+
 import Post from "components/post/Post";
 import Button from "components/button/Button";
 import Loader from "components/loader/Loader";
 import fbService from "api/fbService";
 import { AppContext } from "context/AppContext";
+import { updateInPost } from "actions/postActions";
 
 import "./ProductInfo.scss";
-import { actionTypes } from "context/actionTypes";
 
 class ProductInfo extends Component {
   constructor(props) {
@@ -25,11 +26,13 @@ class ProductInfo extends Component {
   static contextType = AppContext;
 
   componentDidMount() {
-    fbService.getPost(this.props.match.params.productId).then((data) => {
-      this.setState({
-        post: data,
-      });
-    });
+    fbService.PostsService.getPost(this.props.match.params.productId).then(
+      (data) => {
+        this.setState({
+          post: data,
+        });
+      }
+    );
   }
 
   toggleEditPopup = () => {
@@ -37,39 +40,41 @@ class ProductInfo extends Component {
       isEditPopupOpen: !this.state.isEditPopupOpen,
     });
   };
+
   changeValue = (name, value) => {
     this.setState({
       [name]: value,
     });
   };
+
   savePost = () => {
-    fbService
-      .updatePost({
+    fbService.PostsService.updatePost({
+      ...this.state.post,
+      title: this.state.titleValue,
+      body: this.state.bodyValue,
+    }).then((res) => {
+      const newData = {
         ...this.state.post,
         title: this.state.titleValue,
         body: this.state.bodyValue,
-      })
-      .then((res) => {
-        const newData = {
-          ...this.state.post,
-          title: this.state.titleValue,
-          body: this.state.bodyValue,
-        };
-        this.setState({
-          post: newData,
-          isEditPopupOpen: false,
-        });
-        this.props.history.push("/product");
-        const {
-          state: { Posts },
-        } = this.context;
-        if (Posts && Posts.find((el) => el.id === this.state.post.id)) {
-          this.context.dispatch({
-            type: actionTypes.UPDATE_POSTS,
-            payload: { post: newData },
-          });
-        }
+      };
+      this.setState({
+        post: newData,
+        isEditPopupOpen: false,
       });
+      const { Posts } = this.props;
+
+      if (Posts && Posts.find((el) => el.id === this.state.post.id)) {
+        this.props.updateInPost(newData);
+      }
+      this.props.history.push("/product");
+    });
+  };
+
+  keyEvent = (e) => {
+    if (e.keyCode === 13) {
+      return this.savePost();
+    }
   };
 
   render() {
@@ -82,6 +87,7 @@ class ProductInfo extends Component {
         </div>
       );
     }
+
     return (
       <div className="product-info">
         <Post post={post} onClick={() => {}} edit={this.toggleEditPopup} />
@@ -102,6 +108,7 @@ class ProductInfo extends Component {
               type="text"
               placeholder="Title"
               onChange={(e) => this.changeValue("titleValue", e.target.value)}
+              onKeyDown={this.keyEvent}
             />
             <input
               value={bodyValue}
@@ -109,6 +116,7 @@ class ProductInfo extends Component {
               type="text"
               placeholder="Text"
               onChange={(e) => this.changeValue("bodyValue", e.target.value)}
+              onKeyDown={this.keyEvent}
             />
             <SaveIcon
               className="product-info__modal__block__btn"
@@ -121,4 +129,17 @@ class ProductInfo extends Component {
   }
 }
 
-export default withRouter(ProductInfo);
+const mapStateToProps = (state) => {
+  return {
+    Posts: state.postReducer.Posts,
+  };
+};
+
+const mapDispatchToProps = {
+  updateInPost,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ProductInfo));

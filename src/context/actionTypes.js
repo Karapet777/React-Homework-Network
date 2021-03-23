@@ -6,7 +6,5 @@ export const actionTypes = {
   UPDATE_POSTS: "UPDATE_POSTS",
   CREATE_POSTS: "CREATE_POSTS",
   GET_ALL_POSTS: "GET_ALL_POSTS",
+  HES_MORE: "HES_MORE",
 };
-
-// now < 1616184000000 fb
-// now < 1616184000000

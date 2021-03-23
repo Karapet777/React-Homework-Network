@@ -1,235 +1,225 @@
-import React, { Component } from "react";
-import SettingsIcon from "@material-ui/icons/Settings";
+import React, { useState, useEffect, useContext } from "react";
+import { connect } from "react-redux";
 import Modal from "@material-ui/core/Modal";
 import SaveIcon from "@material-ui/icons/Save";
 
-import Post from "components/post/Post";
-import Button from "components/button/Button";
 import fbService from "api/fbService";
-import Loader from "components/loader/Loader";
-import Input from "components/input/Input";
 import { AppContext } from "context/AppContext";
-import { actionTypes } from "context/actionTypes";
+import Button from "components/button/Button";
+import Loader from "components/loader/Loader";
+import Post from "components/post/Post";
+import Input from "components/input/Input";
+import SettingIcon from "components/SettingsIcon/SettingsIcon";
+import {
+  AllPosts,
+  setPosts,
+  getMorePosts,
+  createPost,
+  isPostsHesMore,
+} from "actions/postActions";
 
 import "containers/product/ProductList.scss";
 
-const initialState = {
-  loading: false,
-  start: 0,
-  hasMore: true,
-  showSetting: false,
-  isOpenModal: false,
-  createTitle: "",
-  createBody: "",
-};
-const limit = 5;
-class ProductList extends Component {
-  state = {
-    ...initialState,
-  };
+const ProductList = (props) => {
+  const [state, setState] = useState({
+    loading: false,
+    showSetting: false,
+    isOpenModal: false,
+    createTitle: "",
+    createBody: "",
+  });
+  const [start, setStart] = useState(0);
+  const limit = 5;
 
-  static contextType = AppContext;
+  const context = useContext(AppContext);
 
-  componentDidMount() {
-    if (!this.context.state.Posts) {
-      fbService.getPosts(this.state.start, limit).then((data) => {
-        this.context.dispatch({
-          type: actionTypes.SET_POSTS,
-          payload: { Posts: data },
-        });
-      });
+  useEffect(() => {
+    if (!props.Posts) {
+      props.setPosts(start, limit);
     }
-  }
 
-  getAllPosts = () => {
-    const {
-      state: { Posts },
-    } = this.context;
-    if (Posts) {
-      return (this.context.state.Posts = null);
-    }
-    this.setState({
+    //eslint-disable-next-line
+  }, []);
+
+  const getAllPosts = () => {
+    setState({
+      ...state,
       loading: true,
     });
-    fbService.getAllPosts().then((data) => {
-      this.context.dispatch({
-        type: actionTypes.GET_ALL_POSTS,
-        payload: { posts: data },
-      });
-      this.setState({
-        loading: false,
-        hasMore: false,
-      });
+    props.AllPosts();
+    props.isPostsHesMore(false);
+    setState({
+      ...state,
+      loading: false,
     });
   };
 
-  deletePost = (id) => {
-    fbService
-      .deletePost(id)
-      .then((data) => {
-        this.setState({
-          Posts: this.state.Posts.filter((el) => {
-            return el.id !== id;
-          }),
-        });
+  const deleteTodo = (id) => {
+    fbService.PostsService.deletePost(id)
+      .then(() => {
+        props.setPosts(0, start !== 0 ? start + limit : limit);
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  getMore = () => {
-    const newStart = this.state.start + limit + 1;
-    this.setState({
+  const getMore = () => {
+    const newStart = start + limit + 1;
+    setStart(newStart);
+    setState({
+      ...state,
       loading: true,
-      start: newStart,
     });
-    fbService.getPosts(newStart, newStart + limit).then((data) => {
-      this.context.dispatch({
-        type: actionTypes.GET_MORE_POSTS,
-        payload: { Posts: data },
-      });
-      this.setState({
-        loading: false,
-        hasMore: data.length < limit ? false : true,
-      });
+    props.getMorePosts(newStart, limit);
+    setState({
+      ...state,
+      loading: false,
     });
   };
 
-  chengeValue = (name, value) => {
-    this.setState({
+  const chengeValue = (name, value) => {
+    setState({
+      ...state,
       [name]: value,
     });
   };
 
-  createPost = () => {
-    this.newPost();
-    fbService
-      .createPost({
-        title: this.state.createTitle,
-        body: this.state.createBody,
-        userId: 1,
-      })
-      .then((data) => {
-        this.context.dispatch({
-          type: actionTypes.CREATE_POSTS,
-          payload: { post: data },
-        });
-      });
+  const createPost = () => {
+    newPost();
+    props.createPost(state.createTitle, state.createBody);
+    fbService.PostsService.getPosts(
+      0,
+      start !== 0 ? start + limit : limit
+    ).then((res) => {
+      if (!props.hesMorePost) {
+        props.AllPosts(res);
+      } else {
+        props.setPosts();
+      }
+    });
   };
 
-  newPost = () => {
-    this.setState({
-      isOpenModal: !this.state.isOpenModal,
+  const newPost = () => {
+    setState({
+      ...state,
+      isOpenModal: !state.isOpenModal,
       createTitle: "",
       createBody: "",
     });
   };
 
-  toggleSetting = () => {
-    this.setState({
-      showSetting: !this.state.showSetting,
+  const toggleSetting = () => {
+    setState({
+      ...state,
+      showSetting: !state.showSetting,
     });
   };
 
-  render() {
-    const {
-      loading,
-      hasMore,
-      showSetting,
-      isOpenModal,
-      createTitle,
-      createBody,
-    } = this.state;
-
-    const {
-      state: { Posts },
-    } = this.context;
-
-    if (!Posts || loading) {
-      return (
-        <div className="app-product-container__loading">
-          <Loader />
-        </div>
-      );
+  const keyEnterHandlerEvent = (e) => {
+    if (e.keyCode === 13) {
+      createPost();
     }
+  };
+  const { loading, showSetting, isOpenModal, createTitle, createBody } = state;
+  const {
+    state: { user },
+  } = context;
 
+  if (!props.Posts || loading) {
     return (
-      <div className="app-product-container">
-        <Modal
-          className="app-product-container__modal"
-          open={isOpenModal}
-          onClose={this.newPost}
-        >
-          <div className="app-product-container__modal__block">
-            <p className="app-product-container__modal__block__titil">
-              New post
-            </p>
-            <Input
-              className="app-product-container__modal__block__input"
-              value={createTitle}
-              placeholder="Title"
-              onChenge={(e) => this.chengeValue("createTitle", e.target.value)}
-            />
-            <Input
-              className="app-product-container__modal__block__input"
-              value={createBody}
-              placeholder="body"
-              onChenge={(e) => this.chengeValue("createBody", e.target.value)}
-            />
-            <SaveIcon onClick={this.createPost} />
-          </div>
-        </Modal>
-        ;
-        {this.context.state.user && (
-          <div className="app-product-container__btn-block">
-            <SettingsIcon
-              onClick={this.toggleSetting}
-              className="app-product-container__btn-block__setting"
-            />
-            {showSetting && (
-              <>
-                <Button
-                  onClick={this.newPost}
-                  title="New post"
-                  className="app-product-container__btn-block__btns"
-                />
-                <Button
-                  onClick={this.getAllPosts}
-                  className="app-product-container__btn-block__btns"
-                  title="Get all posts"
-                />
-              </>
-            )}
-          </div>
-        )}
-        {
-          <div className="app-product-container__block-product">
-            {Posts.length > 0 ? (
-              Posts.map((el) => (
-                <Post
-                  key={el.id}
-                  post={el}
-                  remove={() => this.deletePost(el.id)}
-                  isLink
-                />
-              ))
-            ) : (
-              <div>No results</div>
-            )}
-            {hasMore && (
-              <Button
-                onClick={this.getMore}
-                className="app-product-container__block-product__get-more"
-                title={loading ? "...loading " : "Get More"}
-                disabled={loading ? true : false}
-              />
-            )}
-          </div>
-        }
+      <div className="app-product-container__loading">
+        <Loader />
       </div>
     );
   }
-}
 
-export default ProductList;
+  return (
+    <div className="app-product-container">
+      <Modal
+        className="app-product-container__modal"
+        open={isOpenModal}
+        onClose={newPost}
+      >
+        <div className="app-product-container__modal__block">
+          <p className="app-product-container__modal__block__titil">New post</p>
+          <Input
+            className="app-product-container__modal__block__input"
+            value={createTitle}
+            placeholder="Title"
+            onChenge={(e) => chengeValue("createTitle", e.target.value)}
+            onKeyDown={keyEnterHandlerEvent}
+          />
+          <Input
+            className="app-product-container__modal__block__input"
+            value={createBody}
+            placeholder="body"
+            onChenge={(e) => chengeValue("createBody", e.target.value)}
+            onKeyDown={keyEnterHandlerEvent}
+          />
+          <SaveIcon onClick={createPost} />
+        </div>
+      </Modal>
+      {user && (
+        <div className="app-product-container__btn-block">
+          <SettingIcon onClick={toggleSetting} />
+          {showSetting && (
+            <>
+              <Button
+                onClick={newPost}
+                title="New post"
+                className="app-product-container__btn-block__btns"
+              />
+              <Button
+                onClick={getAllPosts}
+                className="app-product-container__btn-block__btns"
+                title="Get all posts"
+              />
+            </>
+          )}
+        </div>
+      )}
+      {
+        <div className={"app-product-container__block-product"}>
+          {props.Posts.length > 0 ? (
+            props.Posts.map((el) => (
+              <Post
+                key={el.id}
+                post={el}
+                remove={() => deleteTodo(el.id)}
+                isLink
+              />
+            ))
+          ) : (
+            <div>No results</div>
+          )}
+        </div>
+      }
+      {props.hesMorePost && (
+        <Button
+          onClick={getMore}
+          className="app-product-container__block-product__get-more"
+          title={loading ? "...loading " : "Get More"}
+          disabled={loading ? true : false}
+        />
+      )}
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    Posts: state.postReducer.Posts,
+    hesMorePost: state.postReducer.hesMorePost,
+    start: state.postReducer.start,
+  };
+};
+const mapDispatchToProps = {
+  AllPosts,
+  setPosts,
+  getMorePosts,
+  createPost,
+  isPostsHesMore,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

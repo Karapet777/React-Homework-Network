@@ -1,7 +1,8 @@
-import Button from "components/button/Button";
 import React, { useState } from "react";
+
 import Login from "./login/Login";
 import Signup from "./signup/Signup";
+import Button from "components/button/Button";
 
 import "containers/auth/Auth.scss";
 

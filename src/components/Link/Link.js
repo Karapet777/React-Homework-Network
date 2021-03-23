@@ -14,6 +14,7 @@ const Link = ({ children, to, className }) => {
     </div>
   );
 };
+
 Link.propTypes = {
   to: PropTypes.string.isRequired,
   className: PropTypes.string,

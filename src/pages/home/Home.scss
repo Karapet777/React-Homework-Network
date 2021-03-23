@@ -2,10 +2,96 @@
 
 .app-home-container {
   height: 100%;
+  width: 100vw;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: $postsColor;
-  background-color: $secondaryColor;
-  font-size: 80px;
+  &__info {
+    width: 100%;
+    max-width: 1320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    &__text {
+      font-size: 200%;
+      color: $secondaryColor;
+    }
+    &__btns {
+      margin: 10px;
+      border-radius: 5px;
+      padding: 5px;
+      width: 100px;
+      border: none;
+      font-weight: bold;
+      color: $primaryColor;
+      background-color: $secondaryColor;
+      &:hover {
+        color: $secondaryColor;
+        background-color: $primaryColor;
+      }
+    }
+    &__block-info {
+      text-align: center;
+      &__title {
+        margin: 20px;
+        font-size: 300%;
+        color: $primaryColor;
+      }
+    }
+  }
+  &__block-imges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    height: 100%;
+    background-color: $primaryColor;
+    &__names-lib {
+      font-size: 60px;
+      font-weight: bold;
+      color: $postsColor;
+    }
+    &__react {
+      width: 687px;
+      position: relative;
+      top: 0px;
+      left: 590px;
+      transition: 0.9s;
+    }
+    &__react--show {
+      width: 687px;
+      position: relative;
+      top: 0px;
+      left: -800px;
+      transition: 0.9s;
+    }
+    &__redux {
+      width: 400px;
+      position: relative;
+      top: 0px;
+      left: -800px;
+      transition: 0.9s;
+    }
+    &__redux--show {
+      width: 400px;
+      position: relative;
+      top: 0px;
+      left: 67px;
+      transition: 0.9s;
+    }
+    &__firebase {
+      width: 343px;
+      position: relative;
+      top: 0px;
+      left: -1200px;
+      transition: 0.9s;
+    }
+    &__firebase--show {
+      width: 343px;
+      position: relative;
+      top: 0px;
+      left: -359px;
+      transition: 0.9s;
+    }
+  }
 }

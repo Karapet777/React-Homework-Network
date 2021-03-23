@@ -1,0 +1,10 @@
+const actionTypesPost = {
+  SET_POSTS: "SET_POSTS",
+  GET_MORE_POSTS: "GET_MORE_POSTS",
+  UPDATE_POST: "UPDATE_POST",
+  CREATE_POSTS: "CREATE_POSTS",
+  GET_ALL_POSTS: "GET_ALL_POSTS",
+  HES_MORE_POST: "HES_MORE_POST",
+};
+
+export default actionTypesPost;

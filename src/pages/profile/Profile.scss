@@ -1,12 +1,33 @@
 @import "~style/root";
 
-
 .app-profile-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  font-size: 80px;
-  background-color: $secondaryColor;
+  background: url(../../assets/profile-img.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
   color: $postsColor;
+  &__block-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 530px;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    border: 1px solid #6bffff;
+    & img {
+      margin-bottom: 45px;
+    }
+    & p {
+      text-align: left;
+      padding: 10px;
+      font-size: 20px;
+      color: white;
+    }
+  }
 }

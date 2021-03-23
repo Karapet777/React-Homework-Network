@@ -1,0 +1,12 @@
+@import "~style/root";
+
+.SettingIcon {
+  color: $primaryColor;
+  margin: 0 10px;
+  transition: all 0.9s;
+  cursor: pointer;
+  &:hover {
+    transform: rotate(180deg) scale(1.2);
+    transition: all 0.5s ease-in-out;
+  }
+}

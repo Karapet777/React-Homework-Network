@@ -16,10 +16,9 @@
   }
   &:hover &__btn {
     bottom: 15px;
-    transition:  0.5s;
+    transition: 0.5s;
     cursor: pointer;
     transform: rotate(360deg) scale(1.5);
-
   }
   &__title {
     font-size: 20px;
@@ -33,6 +32,7 @@
     font-size: 19px;
     color: grey;
     font-style: italic;
+    height: 200px;
   }
   &__btn {
     display: block;
@@ -44,7 +44,7 @@
     position: absolute;
     left: 135px;
     bottom: -35px;
-    transition:  0.9s;
+    transition: 0.9s;
     &:hover {
       color: lightcoral;
     }
