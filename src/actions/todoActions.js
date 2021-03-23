@@ -10,10 +10,14 @@ export const getAllTodos = () => (dispatch) => {
   });
 };
 
-export const setTodo = (data) => ({
-  type: acttionTypesTodo.SET_TODOS,
-  payload: { todo: data },
-});
+export const setTodo = (start, limit) => (dispatch) => {
+  fbService.TodoService.getTodos(start, limit).then((data) => {
+    dispatch({
+      type: acttionTypesTodo.SET_TODOS,
+      payload: { todo: data },
+    });
+  });
+};
 
 export const getMoreTodos = (newStart, limit) => (dispatch) => {
   fbService.TodoService.moreTodo(newStart, newStart + limit).then((data) => {
@@ -22,7 +26,7 @@ export const getMoreTodos = (newStart, limit) => (dispatch) => {
       payload: { todo: data },
     });
     dispatch({
-      type: acttionTypesTodo.HES_MORE,
+      type: acttionTypesTodo.HES_MORE_TODO,
       payload: { hesMore: data.length < limit ? false : true },
     });
   });
@@ -34,7 +38,7 @@ export const create = (data) => ({
 });
 
 export const hesMoreHeandler = (hesMore) => ({
-  type: acttionTypesTodo.HES_MORE,
+  type: acttionTypesTodo.HES_MORE_TODO,
   payload: { hesMore },
 });
 

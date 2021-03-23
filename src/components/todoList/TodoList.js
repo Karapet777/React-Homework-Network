@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import "./TodoList.scss";
 import Button from "components/button/Button";
+
+import "./TodoList.scss";
 
 const TodoList = ({
   title,
@@ -20,12 +21,12 @@ const TodoList = ({
           <div className="todoList-container__checkbox">
             <Button
               onClick={onClickDone}
-              title="done"
+              title="&#9989;"
               className="todoList-container__checkbox__btn"
             />
             <Button
               onClick={onClickNotDone}
-              title="not done"
+              title="&#9940;"
               className="todoList-container__checkbox__btn"
             />
           </div>
@@ -52,6 +53,9 @@ TodoList.propTypes = {
   title: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   onChenge: PropTypes.func,
+  onClickDone: PropTypes.func,
+  onClickNotDone: PropTypes.func,
+  isUser: PropTypes.bool,
 };
 
 export default TodoList;

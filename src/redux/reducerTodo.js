@@ -27,17 +27,11 @@ const todoReducer = (state = initialState, action) => {
         ...state,
         todo: [...state.todo, action.payload.todo],
       };
-    case acttionTypesTodo.HES_MORE:
+    case acttionTypesTodo.HES_MORE_TODO:
       return {
         ...state,
         hesMore: action.payload.hesMore,
       };
-    case acttionTypesTodo.UPDATE_TODO:
-      return {
-        ...state,
-        hesMore: action.payload.res,
-      };
-
     default:
       return state;
   }

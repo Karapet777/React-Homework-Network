@@ -37,6 +37,7 @@ const ProductList = (props) => {
     if (!props.Posts) {
       props.setPosts(start, limit);
     }
+
     //eslint-disable-next-line
   }, []);
 
@@ -56,12 +57,7 @@ const ProductList = (props) => {
   const deleteTodo = (id) => {
     fbService.PostsService.deletePost(id)
       .then(() => {
-        fbService.PostsService.getPosts(
-          0,
-          start !== 0 ? start + limit : limit
-        ).then(() => {
-          props.setPosts();
-        });
+        props.setPosts(0, start !== 0 ? start + limit : limit);
       })
       .catch((err) => {
         console.error(err);
@@ -95,8 +91,12 @@ const ProductList = (props) => {
     fbService.PostsService.getPosts(
       0,
       start !== 0 ? start + limit : limit
-    ).then(() => {
-      props.setPosts();
+    ).then((res) => {
+      if (!props.hesMorePost) {
+        props.AllPosts(res);
+      } else {
+        props.setPosts();
+      }
     });
   };
 
@@ -116,6 +116,11 @@ const ProductList = (props) => {
     });
   };
 
+  const keyEnterHandlerEvent = (e) => {
+    if (e.keyCode === 13) {
+      createPost();
+    }
+  };
   const { loading, showSetting, isOpenModal, createTitle, createBody } = state;
   const {
     state: { user },
@@ -128,11 +133,7 @@ const ProductList = (props) => {
       </div>
     );
   }
-  const keyEnterHandlerEvent = (e) => {
-    if (e.keyCode === 13) {
-      createPost();
-    }
-  };
+
   return (
     <div className="app-product-container">
       <Modal
@@ -179,7 +180,7 @@ const ProductList = (props) => {
         </div>
       )}
       {
-        <div className="app-product-container__block-product">
+        <div className={"app-product-container__block-product"}>
           {props.Posts.length > 0 ? (
             props.Posts.map((el) => (
               <Post
@@ -194,7 +195,6 @@ const ProductList = (props) => {
           )}
         </div>
       }
-
       {props.hesMorePost && (
         <Button
           onClick={getMore}

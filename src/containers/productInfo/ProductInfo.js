@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-
+import { connect } from "react-redux";
 import Modal from "@material-ui/core/Modal";
 import SaveIcon from "@material-ui/icons/Save";
+
 import Post from "components/post/Post";
 import Button from "components/button/Button";
 import Loader from "components/loader/Loader";
 import fbService from "api/fbService";
 import { AppContext } from "context/AppContext";
-import { actionTypes } from "context/actionTypes";
+import { updateInPost } from "actions/postActions";
 
 import "./ProductInfo.scss";
 
@@ -61,17 +62,19 @@ class ProductInfo extends Component {
         post: newData,
         isEditPopupOpen: false,
       });
-      this.props.history.push("/product");
-      const {
-        state: { Posts },
-      } = this.context;
+      const { Posts } = this.props;
+
       if (Posts && Posts.find((el) => el.id === this.state.post.id)) {
-        this.context.dispatch({
-          type: actionTypes.UPDATE_POSTS,
-          payload: { post: newData },
-        });
+        this.props.updateInPost(newData);
       }
+      this.props.history.push("/product");
     });
+  };
+
+  keyEvent = (e) => {
+    if (e.keyCode === 13) {
+      return this.savePost();
+    }
   };
 
   render() {
@@ -105,6 +108,7 @@ class ProductInfo extends Component {
               type="text"
               placeholder="Title"
               onChange={(e) => this.changeValue("titleValue", e.target.value)}
+              onKeyDown={this.keyEvent}
             />
             <input
               value={bodyValue}
@@ -112,6 +116,7 @@ class ProductInfo extends Component {
               type="text"
               placeholder="Text"
               onChange={(e) => this.changeValue("bodyValue", e.target.value)}
+              onKeyDown={this.keyEvent}
             />
             <SaveIcon
               className="product-info__modal__block__btn"
@@ -124,4 +129,17 @@ class ProductInfo extends Component {
   }
 }
 
-export default withRouter(ProductInfo);
+const mapStateToProps = (state) => {
+  return {
+    Posts: state.postReducer.Posts,
+  };
+};
+
+const mapDispatchToProps = {
+  updateInPost,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ProductInfo));

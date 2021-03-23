@@ -3,10 +3,10 @@
 .SettingIcon {
   color: $primaryColor;
   margin: 0 10px;
-  transition: 0.5s;
+  transition: all 0.9s;
   cursor: pointer;
   &:hover {
-    transform: rotate(180deg);
-    transition: 0.5s;
+    transform: rotate(180deg) scale(1.2);
+    transition: all 0.5s ease-in-out;
   }
 }

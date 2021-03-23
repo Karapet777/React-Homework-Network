@@ -24,15 +24,13 @@ const Todos = (props) => {
   const [showSetting, setShowSetting] = useState(false);
   const [valueTodo, setValueTodo] = useState("");
   const [isLoade, setIsLoade] = useState(false);
-  const limit = 5;
+  const limit = 7;
 
   const context = useContext(AppContext);
 
   useEffect(() => {
     if (!props.todo) {
-      fbService.TodoService.getTodos(start, limit).then((data) => {
-        props.setTodo(data);
-      });
+      props.setTodo(start, limit);
     }
     //eslint-disable-next-line
   }, []);
@@ -45,12 +43,7 @@ const Todos = (props) => {
   const deletePost = (id) => {
     fbService.TodoService.deletePost(id)
       .then(() => {
-        fbService.TodoService.getTodos(
-          0,
-          start !== 0 ? start + limit : limit
-        ).then((res) => {
-          props.setTodo(res);
-        });
+        props.getAllTodos();
       })
       .catch((err) => {
         console.error(err);
@@ -58,12 +51,11 @@ const Todos = (props) => {
   };
 
   const getMore = () => {
+    setIsLoade(true);
     const newStart = start + limit + 1;
     setStart(newStart);
-    setIsLoade(true);
-    props.getMoreTodos(newStart, limit);
+    props.getMoreTodos(start, limit);
     setIsLoade(false);
-    console.log(props.todo);
   };
 
   const chengValueHandler = (e) => {
@@ -82,11 +74,9 @@ const Todos = (props) => {
       title: valueTodo,
       completed: false,
       userId: 1,
-    }).then((data) => {
-      props.create(data);
     });
     fbService.TodoService.getAllTodos().then((res) => {
-      props.setTodo(res);
+      props.getAllTodos(res);
     });
     initialValueTodo();
     props.hesMoreHeandler(false);
@@ -100,6 +90,7 @@ const Todos = (props) => {
     fbService.TodoService.readPost(id, { completed: true }).then((res) => {
       fbService.TodoService.getAllTodos().then((res) => {
         props.getAllTodos(res);
+        props.hesMoreHeandler(false);
       });
     });
   };
@@ -108,6 +99,7 @@ const Todos = (props) => {
     fbService.TodoService.readPost(id, { completed: false }).then((res) => {
       fbService.TodoService.getAllTodos().then((res) => {
         props.getAllTodos(res);
+        props.hesMoreHeandler(false);
       });
     });
   };

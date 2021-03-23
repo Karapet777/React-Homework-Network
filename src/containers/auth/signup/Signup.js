@@ -79,6 +79,7 @@ const Signup = () => {
       handlerSignup();
     }
   };
+
   return (
     <div className="app-signup-container">
       <div className="app-signup-container__block">

@@ -50,7 +50,9 @@ export const isPostsHesMore = (hesMorePost) => ({
   payload: { hesMorePost },
 });
 
-export const updatePost = (res) => ({
-  type: actionTypesPost.UPDATE_POST,
-  payload: { todo: res },
-});
+export const updateInPost = (updateInPost) => (dispatch) => {
+  dispatch({
+    type: actionTypesPost.UPDATE_POST,
+    payload: { post: updateInPost },
+  });
+};

@@ -3,7 +3,6 @@ import actionTypesPost from "redux/actionTypesPost";
 const initialState = {
   Posts: null,
   hesMorePost: true,
-  start: 0,
 };
 
 const postReducer = (state = initialState, action) => {
