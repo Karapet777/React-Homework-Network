@@ -14,7 +14,32 @@
   &__block {
     display: flex;
     flex-direction: column;
-    text-align: left;
+    &__VisibilityIcon {
+      position: relative;
+      top: 235px;
+      left: 190px;
+      color: grey;
+    }
+    &__AlternateEmailIcon {
+      position: relative;
+      top: 150px;
+      left: 190px;
+      color: grey;
+    }
+    &__AssignmentIndIcon {
+      position: relative;
+      top: 70px;
+      left: 190px;
+      color: grey;
+    }
+    &__Forgot-Password-Block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &__checkbox {
+        width: 30px;
+      }
+    }
   }
   &__errorText {
     font-size: 12px;
@@ -28,7 +53,7 @@
   &__title-page {
     font-size: 30px;
     letter-spacing: 5px;
-    margin-bottom: 20px;
+    // margin-bottom: 40px;
     margin: auto;
   }
   &__btn {
@@ -39,16 +64,10 @@
     font-size: 20px;
     padding: 5px;
     border-bottom: 1px solid #04527f;
-    margin: auto;
+    margin: 45px auto;
     &:hover {
       width: 75px;
       cursor: pointer;
-    }
-  }
-  &__checkbox {
-    margin: 20px 0;
-    & span {
-      font-size: 12px;
     }
   }
 }

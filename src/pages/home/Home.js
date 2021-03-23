@@ -25,25 +25,55 @@ export class Home extends Component {
     this.setState({
       isReact: true,
     });
+    this.classes.react.push("active");
   }
 
   isReactToggle = () => {
+    const { isRedux, isFirebase } = this.state;
+    if (isRedux) {
+      this.classes.redux.pop();
+    } else if (isFirebase) {
+      this.classes.firebase.pop();
+    }
     this.setState({
       ...initialState,
       isReact: true,
     });
+    this.classes.react.push("active");
   };
+
   isReduxToggle = () => {
+    const { isReact, isFirebase } = this.state;
+    if (isReact) {
+      this.classes.react.pop();
+    } else if (isFirebase) {
+      this.classes.firebase.pop();
+    }
     this.setState({
       ...initialState,
       isRedux: true,
     });
+    this.classes.redux.push("active");
   };
+
   isFirebaseToggle = () => {
+    const { isReact, isRedux } = this.state;
+    if (isReact) {
+      this.classes.react.pop();
+    } else if (isRedux) {
+      this.classes.redux.pop();
+    }
     this.setState({
       ...initialState,
       isFirebase: true,
     });
+    this.classes.firebase.push("active");
+  };
+
+  classes = {
+    react: ["app-home-container__info__btn-react"],
+    firebase: ["app-home-container__info__btn-firebase"],
+    redux: ["app-home-container__info__btn-redux"],
   };
 
   render() {
@@ -97,19 +127,19 @@ export class Home extends Component {
           </p>
           <div>
             <Button
-              className="app-home-container__info__btns"
+              className={this.classes.react.join(" ")}
               title="React"
               onClick={this.isReactToggle}
               disabled={isReact}
             />
             <Button
-              className="app-home-container__info__btns"
+              className={this.classes.firebase.join(" ")}
               title="Firebase"
               onClick={this.isFirebaseToggle}
               disabled={isFirebase}
             />
             <Button
-              className="app-home-container__info__btns"
+              className={this.classes.redux.join(" ")}
               title="Redux"
               onClick={this.isReduxToggle}
               disabled={isRedux}

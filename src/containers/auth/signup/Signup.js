@@ -1,4 +1,8 @@
 import React, { useState, useContext } from "react";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 
 import fbService from "api/fbService";
 import Input from "components/input/Input";
@@ -15,6 +19,7 @@ const Signup = () => {
   const context = useContext(AppContext);
 
   const [passwordType, setpasswordType] = useState(false);
+  const [isRememberPassword, setIsRememberPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "",
@@ -60,7 +65,9 @@ const Signup = () => {
           email: "",
           password: "",
         });
-        localStorage.setItem("user", JSON.stringify(user));
+        if (isRememberPassword) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
         histrory.push("/profile");
       } catch (err) {
         if (err.code === "auth/email-already-in-use") {
@@ -80,9 +87,26 @@ const Signup = () => {
     }
   };
 
+  const rememberToggle = () => {
+    setIsRememberPassword(!isRememberPassword);
+  };
+
   return (
     <div className="app-signup-container">
       <div className="app-signup-container__block">
+        {passwordType ? (
+          <VisibilityIcon
+            onClick={chengeTypePassword}
+            className="app-signup-container__block__VisibilityIcon"
+          />
+        ) : (
+          <VisibilityOffIcon
+            onClick={chengeTypePassword}
+            className="app-signup-container__block__VisibilityIcon"
+          />
+        )}
+        <AlternateEmailIcon className="app-signup-container__block__AlternateEmailIcon" />
+        <AssignmentIndIcon className="app-signup-container__block__AssignmentIndIcon" />
         <p className="app-signup-container__title-page">Signup</p>
         <Input
           className={
@@ -121,17 +145,21 @@ const Signup = () => {
           {error.profileMatch &&
             "The email address is already in use by another account."}
         </p>
-        <span className="app-signup-container__checkbox">
-          <input type="checkbox" onChange={chengeTypePassword} />
-          &nbsp; <span>show password</span>
-        </span>
-        <Button
-          className="app-signup-container__btn"
-          title={loading ? "loading..." : "Signup"}
-          onClick={handlerSignup}
-          disabled={loading}
-        />
       </div>
+      <div className="app-signup-container__block__Forgot-Password-Block">
+        <Input
+          onChenge={rememberToggle}
+          className="app-signup-container__block__Forgot-Password-Block__checkbox"
+          type="checkbox"
+        />
+        <p>Remember me</p>
+      </div>
+      <Button
+        className="app-signup-container__btn"
+        title={loading ? "loading..." : "Signup"}
+        onClick={handlerSignup}
+        disabled={loading}
+      />
     </div>
   );
 };

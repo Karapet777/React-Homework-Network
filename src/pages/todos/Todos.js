@@ -24,7 +24,7 @@ const Todos = (props) => {
   const [showSetting, setShowSetting] = useState(false);
   const [valueTodo, setValueTodo] = useState("");
   const [isLoade, setIsLoade] = useState(false);
-  const limit = 7;
+  const limit = 9;
 
   const context = useContext(AppContext);
 
@@ -54,7 +54,7 @@ const Todos = (props) => {
     setIsLoade(true);
     const newStart = start + limit + 1;
     setStart(newStart);
-    props.getMoreTodos(start, limit);
+    props.getMoreTodos(newStart, limit);
     setIsLoade(false);
   };
 

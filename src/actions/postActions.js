@@ -27,7 +27,7 @@ export const getMorePosts = (newStart, limit) => (dispatch) => {
     });
     dispatch({
       type: actionTypesPost.HES_MORE_POST,
-      payload: { hesMorePost: data.length < limit ? false : true },
+      payload: { hesMorePost: data.length <= limit ? false : true },
     });
   });
 };

@@ -44,18 +44,6 @@ class TodoService {
     return Object.values(data);
   };
 
-  moreTodo = async (startAt = 0, endAt = 5) => {
-    const res = await firebase
-      .database()
-      .ref("todo")
-      .orderByKey()
-      .startAt(startAt.toString())
-      .endAt(endAt.toString())
-      .get();
-    const data = res.toJSON();
-    return Object.values(data);
-  };
-
   createTodo = async (postData) => {
     const res = await firebase
       .database()

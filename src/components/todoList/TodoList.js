@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import DeleteIcon from "@material-ui/icons/Delete";
-
-import Button from "components/button/Button";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
 
 import "./TodoList.scss";
 
@@ -19,15 +19,13 @@ const TodoList = ({
       return (
         <div className={`todoList-container ${className}`}>
           <div className="todoList-container__checkbox">
-            <Button
+            <CheckBoxIcon
+              className="todoList-container__checkbox__btn-done"
               onClick={onClickDone}
-              title="&#9989;"
-              className="todoList-container__checkbox__btn"
             />
-            <Button
+            <IndeterminateCheckBoxIcon
+              className="todoList-container__checkbox__btn-notDoneIcon"
               onClick={onClickNotDone}
-              title="&#9940;"
-              className="todoList-container__checkbox__btn"
             />
           </div>
           <p className="todoList-container__title">{title}</p>
