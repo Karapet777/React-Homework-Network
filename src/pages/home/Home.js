@@ -19,8 +19,8 @@ export class Home extends Component {
   };
   componentDidMount() {
     // sendInitialStateDatabase
-    fbService.TodoService.sendTodoToFirabase();
-    fbService.PostsService.sendPostsToFirabase();
+    // fbService.TodoService.sendTodoToFirabase();
+    // fbService.PostsService.sendPostsToFirabase();
 
     this.setState({
       isReact: true,
