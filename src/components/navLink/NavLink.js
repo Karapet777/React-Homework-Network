@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 
 import "./NavLink.scss";
 
-const NavLink = ({ children, to, className }) => {
+const NavLink = ({ children, to, className, onClick }) => {
   return (
     <div>
       <HeaderLink
+        onClick={onClick}
         exact
         activeClassName="navLink--active"
         className={`navLink ${className}`}

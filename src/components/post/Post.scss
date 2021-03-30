@@ -43,10 +43,31 @@
     color: black;
     position: absolute;
     left: 135px;
-    bottom: -35px;
+    bottom: -25px;
     transition: 0.9s;
     &:hover {
       color: lightcoral;
+    }
+  }
+}
+
+@include media(mobile-large) {
+  .post-container {
+    &:hover &__btn {
+      bottom: 15px;
+    }
+    &__btn {
+      bottom: 15px;
+    }
+  }
+}
+@include media(mobile) {
+  .post-container {
+    &:hover &__btn {
+      bottom: 15px;
+    }
+    &__btn {
+      bottom: 15px;
     }
   }
 }

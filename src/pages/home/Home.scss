@@ -2,50 +2,19 @@
 
 .app-home-container {
   height: 100%;
-  width: 100vw;
   display: flex;
   background: url(../../assets/BGTODOO.jpg);
   &__info {
-    width: 100%;
-    max-width: 1320px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     position: relative;
     &__text {
-      font-size: 200%;
+      font-size: 40px;
       color: $secondaryColor;
     }
-    &__btn-react {
-      margin: 10px;
-      border-radius: 5px;
-      padding: 5px;
-      width: 100px;
-      border: none;
-      font-weight: bold;
-      color: $primaryColor;
-      background-color: $secondaryColor;
-      &:hover {
-        color: $secondaryColor;
-        background-color: $primaryColor;
-      }
-    }
-    &__btn-firebase {
-      margin: 10px;
-      border-radius: 5px;
-      padding: 5px;
-      width: 100px;
-      border: none;
-      font-weight: bold;
-      color: $primaryColor;
-      background-color: $secondaryColor;
-      &:hover {
-        color: $secondaryColor;
-        background-color: $primaryColor;
-      }
-    }
-    &__btn-redux {
+    &__btn {
       margin: 10px;
       border-radius: 5px;
       padding: 5px;
@@ -73,12 +42,11 @@
     align-items: center;
     justify-content: center;
     width: 600px;
-    height: 100%;
     background-color: $primaryColor;
     &__names-lib {
       font-size: 60px;
       font-weight: bold;
-      color: $postsColor;
+      color: wheat;
     }
     &__react {
       width: 687px;
@@ -127,4 +95,224 @@
 .active {
   color: $secondaryColor;
   background-color: $primaryColor;
+}
+
+@include media(mobile) {
+  .app-home-container {
+    display: flex;
+    flex-direction: column;
+    &__info {
+      &__text {
+        font-size: 20px;
+        text-align: center;
+        margin: 40px 0;
+      }
+      &__btn {
+        display: block;
+        width: 150px;
+      }
+      &__block-info {
+        &__title {
+          margin: 20px 10px;
+          font-size: 40px;
+        }
+      }
+    }
+    &__block-imges {
+      width: 100%;
+      &__react {
+        width: 287px;
+        left: 80px;
+      }
+      &__react--show {
+        width: 287px;
+        left: -800px;
+      }
+      &__redux {
+        width: 182px;
+        left: -800px;
+      }
+      &__redux--show {
+        width: 182px;
+        left: -150px;
+      }
+      &__firebase {
+        width: 140px;
+        left: -800px;
+      }
+      &__firebase--show {
+        width: 140px;
+        left: -359px;
+      }
+    }
+  }
+}
+
+/// mobile-large
+
+@include media(mobile-large) {
+  .app-home-container {
+    &__info {
+      &__text {
+        margin: 0 10px;
+        text-align: center;
+        font-size: 25px;
+      }
+      &__block-info {
+        &__title {
+          margin: auto 7px;
+          font-size: 30px;
+        }
+      }
+    }
+    &__block-imges {
+      justify-content: space-between;
+      width: 150px;
+      &__names-lib {
+        font-size: 50px;
+        font-weight: bold;
+        transform: rotate(270deg);
+        color: $postsColor;
+        position: relative;
+      }
+      &__react {
+        width: 180px;
+        top: 140px;
+        left: -65px;
+      }
+      &__react--show {
+        width: 140px;
+        top: 0px;
+        left: -800px;
+      }
+      &__redux {
+        width: 80px;
+        top: 0px;
+        left: -800px;
+      }
+      &__redux--show {
+        width: 80px;
+        top: 140px;
+        left: -170px;
+      }
+      &__firebase {
+        width: 80px;
+        top: 0px;
+        left: -1200px;
+        transition: 0.9s;
+      }
+      &__firebase--show {
+        width: 80px;
+        position: relative;
+        top: 145px;
+        left: -300px;
+        transition: 0.9s;
+      }
+    }
+  }
+}
+
+@include media(tablet) {
+  .app-home-container {
+    &__info {
+      &__text {
+        font-size: 25px;
+      }
+      &__block-info {
+        text-align: center;
+        &__title {
+          margin: auto 10px;
+          font-size: 30px;
+          color: $primaryColor;
+        }
+      }
+    }
+    &__block-imges {
+      width: 150px;
+      background-color: $primaryColor;
+      &__names-lib {
+        font-size: 60px;
+        font-weight: bold;
+        color: wheat;
+      }
+      &__react {
+        width: 307px;
+        top: 136px;
+        left: 679px;
+      }
+      &__react--show {
+        width: 307px;
+        position: relative;
+        top: 0px;
+        left: -800px;
+        transition: 0.9s;
+      }
+      &__redux--show {
+        width: 200px;
+        position: relative;
+        top: 136px;
+        left: 320px;
+        transition: 0.9s;
+      }
+      &__firebase--show {
+        width: 140px;
+        position: relative;
+        top: 136px;
+        left: -80px;
+        transition: 0.9s;
+      }
+    }
+  }
+}
+
+@include media(desktop) {
+  .app-home-container {
+    &__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      position: relative;
+      &__text {
+        font-size: 25px;
+        color: $secondaryColor;
+      }
+
+      &__block-info {
+        text-align: center;
+        &__title {
+          margin: auto 10px;
+          font-size: 30px;
+          color: $primaryColor;
+        }
+      }
+    }
+    &__block-imges {
+      width: 400px;
+      &__react {
+        width: 400px;
+        left: 490px;
+      }
+      &__redux {
+        width: 400px;
+        position: relative;
+        top: 0px;
+        left: -800px;
+        transition: 0.9s;
+      }
+      &__redux--show {
+        width: 250px;
+        left: -50px;
+      }
+      &__firebase {
+        width: 343px;
+        position: relative;
+        top: 0px;
+      }
+      &__firebase--show {
+        width: 200px;
+        left: -460px;
+      }
+    }
+  }
 }

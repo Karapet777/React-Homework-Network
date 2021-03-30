@@ -1,3 +1,5 @@
+@import "~style/root";
+
 .product-info {
   height: 100%;
   display: flex;
@@ -64,4 +66,40 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@include media(mobile) {
+  .product-info {
+    &__modal {
+      &__block {
+        width: 250px;
+        height: 350px;
+
+        &__input {
+          width: 150px; //chenge
+        }
+        &__btn {
+          bottom: 55px;
+        }
+      }
+    }
+  }
+}
+
+@include media(mobile-large) {
+  .product-info {
+    &__modal {
+      &__block {
+        width: 250px;
+        height: 350px;
+
+        &__input {
+          width: 150px; //chenge
+        }
+        &__btn {
+          bottom: 55px;
+        }
+      }
+    }
+  }
 }

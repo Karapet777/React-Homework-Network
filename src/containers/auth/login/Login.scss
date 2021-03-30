@@ -55,3 +55,15 @@
     }
   }
 }
+
+@include media(mobile) {
+  .app-login-container {
+    width: 250px;
+  }
+}
+
+@include media(mobile-large) {
+  .app-login-container {
+    width: 250px;
+  }
+}

@@ -79,3 +79,65 @@
 .done {
   background-color: #4ae54a;
 }
+
+@include media(mobile-large) {
+  .todoList-container {
+    width: 300px;
+    &:hover &__remov-icon {
+      right: 10px;
+    }
+    &:hover &__checkbox {
+      &__btn-done {
+        left: -40px;
+      }
+      &__btn-notDoneIcon {
+        left: -40px;
+      }
+    }
+    &__checkbox {
+      &__btn-done {
+        left: -40px;
+      }
+      &__btn-notDoneIcon {
+        left: -40px;
+      }
+    }
+    &__remov-icon {
+      right: 10px;
+    }
+  }
+  .done {
+    background-color: #4ae54a;
+  }
+}
+
+@include media(mobile) {
+  .todoList-container {
+    width: 300px;
+    &:hover &__remov-icon {
+      right: 10px;
+    }
+    &:hover &__checkbox {
+      &__btn-done {
+        left: -40px;
+      }
+      &__btn-notDoneIcon {
+        left: -40px;
+      }
+    }
+    &__checkbox {
+      &__btn-done {
+        left: -40px;
+      }
+      &__btn-notDoneIcon {
+        left: -40px;
+      }
+    }
+    &__remov-icon {
+      right: 10px;
+    }
+  }
+  .done {
+    background-color: #4ae54a;
+  }
+}

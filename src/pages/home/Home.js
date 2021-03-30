@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import fbService from "api/fbService";
+// import fbService from "api/fbService";
 import ReactImg from "assets/ReactImg.png";
 import ReduxImg from "assets/Redux.png";
 import FirebaseImg from "assets/icon_Firebase.png";
@@ -71,9 +71,9 @@ export class Home extends Component {
   };
 
   classes = {
-    react: ["app-home-container__info__btn-react"],
-    firebase: ["app-home-container__info__btn-firebase"],
-    redux: ["app-home-container__info__btn-redux"],
+    react: ["app-home-container__info__btn"],
+    firebase: ["app-home-container__info__btn"],
+    redux: ["app-home-container__info__btn"],
   };
 
   render() {

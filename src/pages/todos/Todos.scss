@@ -70,3 +70,30 @@
 .setingIcon {
   color: $postsColor;
 }
+
+@include media(mobile-large) {
+  .app-todo-container {
+    &__createTodo-block {
+      &__textNewTodo {
+        width: 280px;
+      }
+    }
+    &__block-todos {
+      display: grid;
+      grid-template-columns: auto;
+    }
+  }
+}
+@include media(mobile) {
+  .app-todo-container {
+    &__createTodo-block {
+      &__textNewTodo {
+        width: 280px;
+      }
+    }
+    &__block-todos {
+      display: grid;
+      grid-template-columns: auto;
+    }
+  }
+}

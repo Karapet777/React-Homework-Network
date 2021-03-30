@@ -71,3 +71,15 @@
     }
   }
 }
+
+@include media(mobile) {
+  .app-signup-container {
+    width: 250px;
+  }
+}
+
+@include media(mobile-large) {
+  .app-signup-container {
+    width: 250px;
+  }
+}

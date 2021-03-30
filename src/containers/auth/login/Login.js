@@ -8,6 +8,7 @@ import Input from "components/input/Input";
 import fbService from "api/fbService";
 import { AppContext } from "context/AppContext";
 import { useHistory } from "react-router-dom";
+import { validateEmail, validatePassword } from "utils/validate";
 
 import "containers/auth/login/Login.scss";
 
@@ -21,12 +22,21 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState({
+    errorEmail: "",
+    errorPassword: "",
+  });
 
   const chengeHandler = (name, value) => {
     setErrorLogin(false);
     setCredentials({
       ...credentials,
       [name]: value,
+    });
+    setErrorLogin(false);
+    setError({
+      errorEmail: "",
+      errorPassword: "",
     });
   };
 
@@ -35,19 +45,30 @@ const Login = () => {
   };
 
   const handlerLogin = async () => {
-    try {
-      const user = await fbService.UserService.login(credentials);
-      context.dispatch({ type: "SET_USER", payload: { user } });
-      if (isRememberPassword) {
-        localStorage.setItem("user", JSON.stringify(user));
-      }
-      setCredentials({
-        ...credentials,
-        name: user.displayName,
+    if (!validateEmail(credentials.email)) {
+      return setError({
+        errorEmail: "The email address is badly formatted.",
       });
-      history.push("/profile");
-    } catch (err) {
-      setErrorLogin(true);
+    } else if (!validatePassword(credentials.password)) {
+      setError({
+        errorPassword: "Password should be at least 6 characters",
+      });
+    } else {
+      try {
+        const user = await fbService.UserService.login(credentials);
+        context.dispatch({ type: "SET_USER", payload: { user } });
+        if (isRememberPassword) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
+        setCredentials({
+          ...credentials,
+          name: user.displayName,
+        });
+        history.push("/profile");
+      } catch (err) {
+        console.log(err);
+        setErrorLogin(true);
+      }
     }
   };
 
@@ -60,7 +81,6 @@ const Login = () => {
       handlerLogin();
     }
   };
-
   return (
     <div className="app-login-container">
       <div className="app-login-container__block">
@@ -84,6 +104,7 @@ const Login = () => {
           placeholder="Email"
           onKeyDown={keydownHandler}
         />
+        <p className="app-login-container--errorText">{error.errorEmail}</p>
         <Input
           className={errorLogin ? "app-login-container--error" : null}
           value={credentials.password}
@@ -93,7 +114,7 @@ const Login = () => {
           type={passwordType ? "text" : "password"}
         />
         <p className="app-login-container--errorText">
-          {errorLogin && "Profile does not exist"}
+          {errorLogin ? "Profile does not exist" : error.errorPassword}
         </p>
         <div className="app-signup-container__block__Forgot-Password-Block">
           <Input
